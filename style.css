@@ -7,3 +7,9 @@
 .brand img{display:block;width:52px;height:52px;object-fit:contain}
 .siteFooter{font-size:12px;text-align:center;color:var(--muted);padding:20px 18px 28px}
 @media(max-width:680px){.brand img{width:46px;height:46px}.siteFooter{padding-bottom:20px}}
+
+/* V1.0.3 — logo three times larger on desktop and mobile */
+.head{height:170px}
+.brand{min-width:156px}
+.brand img{width:156px;height:156px}
+@media(max-width:680px){.head{height:150px}.brand{min-width:138px}.brand img{width:138px;height:138px}}
