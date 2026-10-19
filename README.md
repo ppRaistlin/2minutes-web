@@ -1,4 +1,4 @@
-# 2minutes Web/PWA v1.0.1 — première livraison
+# 2minutes Web/PWA v1.0.2 — mise à jour visuelle
 
 Source : extension 2minutes V2.1.36. Site statique indépendant ; aucune modification des extensions ni aucune migration SQL.
 
@@ -36,3 +36,9 @@ La clé `sb_publishable_` est publique par définition. Ne jamais y placer une c
 - Mots-clés issus du titre réellement fourni par l’utilisateur/partage, ou suggestion prudente issue du dernier segment de l’URL ; jamais du seul domaine. Si aucune suggestion valable, la saisie est demandée et les liens restent désactivés.
 - Titre éditable dans la fiche article. Aucune extraction CORS miraculeuse : un vrai service de métadonnées serveur sera nécessaire pour automatiser cela sur des sites qui bloquent la lecture cross-origin.
 - Recherche Google externe sur demande, sans clé payante, sans mutation Supabase.
+
+## V1.0.2 — identité visuelle et version
+
+- Le titre texte 2min de la barre supérieure est remplacé par l’icône d’origine (`icons/icon128.png`).
+- La version `v1.0.2` est visible en pied de page et dans les paramètres.
+- Cache PWA versionné en `2minutes-pwa-v1.0.2`.
