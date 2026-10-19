@@ -1,4 +1,4 @@
-# 2minutes Web/PWA v1.0.0 — première livraison
+# 2minutes Web/PWA v1.0.1 — première livraison
 
 Source : extension 2minutes V2.1.36. Site statique indépendant ; aucune modification des extensions ni aucune migration SQL.
 
@@ -29,3 +29,10 @@ Source : extension 2minutes V2.1.36. Site statique indépendant ; aucune modific
 
 ## Sécurité
 La clé `sb_publishable_` est publique par définition. Ne jamais y placer une clé `service_role`/secret. RPC consulté : `list_article_views_v2` uniquement. Ne modifier aucune règle RLS ni aucun SQL de la base existante sans validation. Les URL et extraits sont insérés via `textContent`, sans HTML utilisateur.
+
+## V1.0.1 — correction recherche « Explorer d’autres sources »
+- Médias proposés dans la langue et le pays du média analysé, lorsque connus ; diversité d’orientations, priorité à deux médias d’orientation opposée puis au centre. Aucune prétention que des articles pertinents ont déjà été trouvés.
+- Médias affichés par nom et orientation, et non par ordre alphabétique mondial des domaines.
+- Mots-clés issus du titre réellement fourni par l’utilisateur/partage, ou suggestion prudente issue du dernier segment de l’URL ; jamais du seul domaine. Si aucune suggestion valable, la saisie est demandée et les liens restent désactivés.
+- Titre éditable dans la fiche article. Aucune extraction CORS miraculeuse : un vrai service de métadonnées serveur sera nécessaire pour automatiser cela sur des sites qui bloquent la lecture cross-origin.
+- Recherche Google externe sur demande, sans clé payante, sans mutation Supabase.
