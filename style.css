@@ -111,3 +111,14 @@ body{padding-bottom:0}
 .urlHelp>summary:focus-visible{outline:3px solid #7aa7ff;outline-offset:3px}
 .urlHelpText{position:absolute;left:0;top:calc(100% + 9px);z-index:12;width:min(340px,calc(100vw - 78px));background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:0 10px 28px #0005;font-size:14px;line-height:1.45}
 .urlHelpText ol{padding-left:20px;margin:10px 0}.urlHelpText li{margin:5px 0}.urlHelpText p{margin:10px 0 0}.urlHelpText code{overflow-wrap:anywhere}
+
+
+/* v1.0.14 — lecteur BD pédagogique */
+.comicCta{display:inline-flex;align-items:center;justify-content:center;gap:9px;margin:0 0 12px;padding:10px 14px;border-radius:999px;border:1px solid #4a6b9a;background:#1f3558;color:#fff;font-weight:700;line-height:1;text-decoration:none;box-shadow:0 4px 16px #00000022}
+.comicCta:hover{background:#274674}.comicCta svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}.comicCta span{white-space:nowrap}
+.headerSlogan .comicCta{display:inline-flex}
+.comicDialog{width:min(96vw,1180px);max-width:1180px;padding:18px;background:var(--surface);color:var(--text)}
+.comicViewer{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center}.comicTrack{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.comicTrack img{display:block;max-width:100%;max-height:75vh;width:auto;height:auto;border-radius:14px;box-shadow:0 8px 30px #00000022;background:#fff}.comicMeta{margin-top:10px;text-align:center}.comicCounter{font-size:14px;color:var(--muted)}
+.comicNav{width:48px;height:48px;border-radius:999px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:34px;line-height:1;display:grid;place-items:center}.comicNav:hover{background:#dbe7ff22}
+.comicThumbs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:14px}.comicThumb{padding:0;border:2px solid transparent;border-radius:12px;background:transparent;overflow:hidden}.comicThumb img{display:block;width:100%;aspect-ratio:1.2/1;object-fit:cover}.comicThumb.active{border-color:var(--blue);box-shadow:0 0 0 2px color-mix(in srgb,var(--blue) 25%,transparent)}
+@media(max-width:680px){.comicDialog{padding:14px 12px}.comicViewer{grid-template-columns:1fr;gap:10px}.comicNav{position:fixed;bottom:18px;z-index:2;width:46px;height:46px;background:#18263bcc}.comicPrev{left:18px}.comicNext{right:18px}.comicTrack img{max-height:68vh}.comicThumbs{grid-template-columns:repeat(3,minmax(0,1fr))}.headerSlogan .comicCta{margin-bottom:10px}.headerSlogan p{margin-top:0}}

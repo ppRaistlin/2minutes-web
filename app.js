@@ -5,6 +5,17 @@ const read=(k,f)=>{try{let v=JSON.parse(localStorage.getItem('tmweb_'+k));return
 const nativeLang=(navigator.language||'fr').slice(0,2);
 const inferredCountry=(()=>{const locale=navigator.language||'fr-FR',region=locale.match(/[-_]([a-z]{2})$/i)?.[1]?.toUpperCase();if(region)return region;return ({fr:'FR',en:'GB',es:'ES',de:'DE',it:'IT',pt:'PT',nl:'NL',pl:'PL'})[nativeLang]||'FR'})();
 let prefs=read('prefs',{theme:'auto',lang:nativeLang,period:'7',country:inferredCountry}),favs=new Set(read('favorites',[])),history=read('history',[]),current=null,view='home',mediaLimit=50,swWaiting=null;
+
+const COMICS=[
+  {src:'./comics/bd1-cadrage.png',title:'BD 1 · Le biais de cadrage'},
+  {src:'./comics/bd2-autorite.png',title:'BD 2 · Le biais d’autorité'},
+  {src:'./comics/bd3-repetition.png',title:'BD 3 · Le biais de répétition'},
+  {src:'./comics/bd4-omission.png',title:'BD 4 · Le biais d’omission'},
+  {src:'./comics/bd5-emotionnel.png',title:'BD 5 · Le biais émotionnel'},
+  {src:'./comics/bd6-confirmation.png',title:'BD 6 · Le biais de confirmation'}
+];
+let comicIndex=0,comicTouchStartX=null;
+
 const entries=Object.entries(BIAS_DATABASE).map(([domain,data])=>({domain,data,name:(data.desc||domain).split(' — ')[0].trim()||domain})).filter(x=>x.data&&[-4,-2,0,2,4].includes(Number(x.data.score))).sort((a,b)=>a.domain.localeCompare(b.domain));
 const trustedUrl=raw=>{let u=new URL(raw);if(!['https:','http:'].includes(u.protocol)||!u.hostname.includes('.'))throw Error('Adresse Web non valide.');u.hash='';['utm_source','utm_medium','utm_campaign','utm_term','utm_content','gclid','fbclid'].forEach(p=>u.searchParams.delete(p));u.hostname=u.hostname.toLowerCase().replace(/^www\./,'');if(u.pathname.length>1)u.pathname=u.pathname.replace(/\/$/,'');return u.href};
 const domain=url=>new URL(url).hostname.toLowerCase().replace(/^www\./,'');
@@ -78,7 +89,16 @@ async function analyze(raw,title=''){let url;try{url=canonicalForDB(raw)}catch{$
 $('articleForm').onsubmit=e=>{e.preventDefault();analyze($('articleUrl').value)};$('articleUrl').addEventListener('input',()=> $('articleUrl').setCustomValidity(''));
 function setTheme(){let dark=prefs.theme==='dark'||prefs.theme==='auto'&&matchMedia('(prefers-color-scheme: dark)').matches;document.body.dataset.theme=dark?'dark':'light'}$('themeSelect').value=prefs.theme||'auto';$('themeSelect').onchange=()=>{prefs.theme=$('themeSelect').value;store('prefs',prefs);setTheme()};matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',setTheme);setTheme();
 $('defaultPeriod').value=prefs.period||'7';$('defaultPeriod').onchange=()=>{prefs.period=$('defaultPeriod').value;store('prefs',prefs)};
-const languageNames={fr:'Français',en:'English',es:'Español',de:'Deutsch',it:'Italiano',pt:'Português',nl:'Nederlands',pl:'Polski'};for(let l of TWO_MIN_LANGS){$('uiLanguage').add(new Option(languageNames[l]||l,l))};$('uiLanguage').value=TWO_MIN_LANGS.includes(prefs.lang)?prefs.lang:'fr';$('uiLanguage').onchange=()=>{prefs.lang=$('uiLanguage').value;store('prefs',prefs);setUILang(prefs.lang);applyLang()};function applyLang(){setUILang(prefs.lang);document.documentElement.lang=UI_LANG;$('heroSub').textContent=T('tag');$('exploreButton').textContent=T('perspective')+' →';}applyLang();
+const languageNames={fr:'Français',en:'English',es:'Español',de:'Deutsch',it:'Italiano',pt:'Português',nl:'Nederlands',pl:'Polski'};for(let l of TWO_MIN_LANGS){$('uiLanguage').add(new Option(languageNames[l]||l,l))};$('uiLanguage').value=TWO_MIN_LANGS.includes(prefs.lang)?prefs.lang:'fr';$('uiLanguage').onchange=()=>{prefs.lang=$('uiLanguage').value;store('prefs',prefs);setUILang(prefs.lang);applyLang()};function applyLang(){setUILang(prefs.lang);document.documentElement.lang=UI_LANG;$('heroSub').textContent='Confrontons les points de vue';$('exploreButton').textContent=T('perspective')+' →';}applyLang();
+
+function renderComicThumbs(){const wrap=$('comicThumbs');wrap.replaceChildren(...COMICS.map((item,index)=>{const b=node('button','comicThumb'+(index===comicIndex?' active':''));b.type='button';b.setAttribute('aria-label',item.title);const img=document.createElement('img');img.src=item.src;img.alt=item.title;img.loading='lazy';b.append(img);b.onclick=()=>showComic(index);return b}))}
+function showComic(index){comicIndex=(index+COMICS.length)%COMICS.length;const item=COMICS[comicIndex];$('comicImage').src=item.src;$('comicImage').alt=item.title;$('comicCounter').textContent=item.title+' · '+(comicIndex+1)+' / '+COMICS.length;q('#comicThumbs .comicThumb').forEach((btn,i)=>btn.classList.toggle('active',i===comicIndex));}
+function openComic(index=0){const dialog=$('comicDialog');if(!dialog.open){dialog.showModal();renderComicThumbs();}showComic(index)}
+$('comicButton').onclick=()=>openComic(0);$('comicPrev').onclick=()=>showComic(comicIndex-1);$('comicNext').onclick=()=>showComic(comicIndex+1);$('closeComic').onclick=()=>$('comicDialog').close();$('comicDialog').addEventListener('click',e=>{const rect=$('comicDialog').getBoundingClientRect();if(e.target===$('comicDialog')&&(e.clientY<rect.top||e.clientY>rect.bottom||e.clientX<rect.left||e.clientX>rect.right))$('comicDialog').close()});
+$('comicTrack').addEventListener('touchstart',e=>{comicTouchStartX=e.changedTouches[0].clientX},{passive:true});
+$('comicTrack').addEventListener('touchend',e=>{if(comicTouchStartX===null)return;const dx=e.changedTouches[0].clientX-comicTouchStartX;if(Math.abs(dx)>45)showComic(comicIndex+(dx<0?1:-1));comicTouchStartX=null},{passive:true});
+$('comicDialog').addEventListener('keydown',e=>{if(!$('comicDialog').open)return;if(e.key==='ArrowLeft')showComic(comicIndex-1);if(e.key==='ArrowRight')showComic(comicIndex+1)});
+
 $('logoVideo').onclick=()=>{const dialog=$('videoDialog');const video=$('chiracVideo');dialog.showModal();video.currentTime=0;const attempt=video.play();if(attempt&&typeof attempt.catch==='function')attempt.catch(()=>{ /* Browser may require a second tap on Play */ });};$('closeVideo').onclick=()=>{$('chiracVideo').pause();$('videoDialog').close()};$('videoDialog').addEventListener('close',()=>$('chiracVideo').pause());
 const params=new URLSearchParams(location.search);let shared=params.get('url')||params.get('text')||'';if(shared){let found=shared.match(/https?:\/\/[^\s]+/);if(found){$('articleUrl').value=found[0];analyze(found[0],params.get('title')||'');window.history.replaceState(null,'',location.pathname)}}
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').then(reg=>{if(reg.waiting)offerUpdate(reg.waiting);reg.addEventListener('updatefound',()=>{let w=reg.installing;w?.addEventListener('statechange',()=>{if(w.state==='installed'&&navigator.serviceWorker.controller)offerUpdate(w)})})}).catch(()=>{});navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload())}

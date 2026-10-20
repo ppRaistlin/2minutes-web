@@ -1,4 +1,4 @@
-# 2minutes Web/PWA v1.0.13
+# 2minutes Web/PWA v1.0.14
 
 ## V1.0.13
 
