@@ -7,12 +7,12 @@ const inferredCountry=(()=>{const locale=navigator.language||'fr-FR',region=loca
 let prefs=read('prefs',{theme:'auto',lang:nativeLang,period:'7',country:inferredCountry}),favs=new Set(read('favorites',[])),history=read('history',[]),current=null,view='home',mediaLimit=50,swWaiting=null;
 
 const COMICS=[
-  {src:'./comics/bd1-cadrage.jpg',title:'BD 1 · Le biais de cadrage'},
-  {src:'./comics/bd2-autorite.jpg',title:'BD 2 · Le biais d’autorité'},
-  {src:'./comics/bd3-repetition.jpg',title:'BD 3 · Le biais de répétition'},
-  {src:'./comics/bd4-omission.jpg',title:'BD 4 · Le biais d’omission'},
-  {src:'./comics/bd5-emotionnel.jpg',title:'BD 5 · Le biais émotionnel'},
-  {src:'./comics/bd6-confirmation.jpg',title:'BD 6 · Le biais de confirmation'}
+  {src:'./comics/bd3-repetition.jpg',title:'Le biais de répétition'},
+  {src:'./comics/bd2-autorite.jpg',title:'Le biais d’autorité'},
+  {src:'./comics/bd4-omission.jpg',title:'Le biais d’omission'},
+  {src:'./comics/bd5-emotionnel.jpg',title:'Le biais émotionnel'},
+  {src:'./comics/bd1-cadrage.jpg',title:'Le biais de cadrage'},
+  {src:'./comics/bd6-confirmation.jpg',title:'Le biais de confirmation'}
 ];
 let comicIndex=0,comicTouchStartX=null;
 
@@ -101,14 +101,14 @@ function setTheme(){let dark=prefs.theme==='dark'||prefs.theme==='auto'&&matchMe
 $('defaultPeriod').value=prefs.period||'7';$('defaultPeriod').onchange=()=>{prefs.period=$('defaultPeriod').value;store('prefs',prefs)};
 const languageNames={fr:'Français',en:'English',es:'Español',de:'Deutsch',it:'Italiano',pt:'Português',nl:'Nederlands',pl:'Polski'};for(let l of TWO_MIN_LANGS){$('uiLanguage').add(new Option(languageNames[l]||l,l))};$('uiLanguage').value=TWO_MIN_LANGS.includes(prefs.lang)?prefs.lang:'fr';$('uiLanguage').onchange=()=>{prefs.lang=$('uiLanguage').value;store('prefs',prefs);setUILang(prefs.lang);applyLang()};function applyLang(){setUILang(prefs.lang);document.documentElement.lang=UI_LANG;$('heroSub').textContent='Confrontons les points de vue';$('exploreButton').textContent=T('perspective')+' →';}applyLang();
 
-function showComic(index){comicIndex=(index+COMICS.length)%COMICS.length;const item=COMICS[comicIndex];$('comicImage').src=item.src;$('comicImage').alt=item.title;$('comicCounter').textContent=item.title+' · '+(comicIndex+1)+' / '+COMICS.length;}
+function showComic(index){comicIndex=(index+COMICS.length)%COMICS.length;const item=COMICS[comicIndex];$('comicImage').src=item.src;$('comicImage').alt=item.title;$(`comicCounter`).textContent=item.title+' · '+(comicIndex+1)+' / '+COMICS.length;}
 function openComic(index=0){const dialog=$('comicDialog');if(!dialog.open){dialog.showModal();}showComic(index)}
 $('comicButton').onclick=()=>openComic(0);$('comicPrev').onclick=()=>showComic(comicIndex-1);$('comicNext').onclick=()=>showComic(comicIndex+1);$('comicDialog').addEventListener('click',e=>{const rect=$('comicDialog').getBoundingClientRect();if(e.target===$('comicDialog')&&(e.clientY<rect.top||e.clientY>rect.bottom||e.clientX<rect.left||e.clientX>rect.right))$('comicDialog').close()});
 $('comicTrack').addEventListener('touchstart',e=>{comicTouchStartX=e.changedTouches[0].clientX},{passive:true});
 $('comicTrack').addEventListener('touchend',e=>{if(comicTouchStartX===null)return;const dx=e.changedTouches[0].clientX-comicTouchStartX;if(Math.abs(dx)>45)showComic(comicIndex+(dx<0?1:-1));comicTouchStartX=null},{passive:true});
 $('comicDialog').addEventListener('keydown',e=>{if(!$('comicDialog').open)return;if(e.key==='ArrowLeft')showComic(comicIndex-1);if(e.key==='ArrowRight')showComic(comicIndex+1)});
 
-$('logoVideo').onclick=()=>{const dialog=$('videoDialog');const video=$('chiracVideo');dialog.showModal();video.currentTime=0;const attempt=video.play();if(attempt&&typeof attempt.catch==='function')attempt.catch(()=>{ /* Browser may require a second tap on Play */ });};$('closeVideo').onclick=()=>{$('chiracVideo').pause();$('videoDialog').close()};$('videoDialog').addEventListener('close',()=>$('chiracVideo').pause());
+$('logoVideo').onclick=()=>{const dialog=$('videoDialog');const video=$('chiracVideo');dialog.showModal();video.currentTime=0;const attempt=video.play();if(attempt&&typeof attempt.catch==='function')attempt.catch(()=>{ /* Browser may require a second tap on Play */ });};$('closeVideo').onclick=()=>{const video=$('chiracVideo');video.pause();video.currentTime=0;$('videoDialog').close()};$('videoDialog').addEventListener('close',()=>{const video=$('chiracVideo');video.pause();video.currentTime=0;});
 const params=new URLSearchParams(location.search);let shared=params.get('url')||params.get('text')||'';if(shared){let found=shared.match(/https?:\/\/[^\s]+/);if(found){$('articleUrl').value=found[0];analyze(found[0],params.get('title')||'');window.history.replaceState(null,'',location.pathname)}}
 if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').then(reg=>{if(reg.waiting)offerUpdate(reg.waiting);reg.addEventListener('updatefound',()=>{let w=reg.installing;w?.addEventListener('statechange',()=>{if(w.state==='installed'&&navigator.serviceWorker.controller)offerUpdate(w)})})}).catch(()=>{});navigator.serviceWorker.addEventListener('controllerchange',()=>location.reload())}
 function offerUpdate(worker){swWaiting=worker;$('updateBanner').classList.remove('hidden')}$('applyUpdate').onclick=()=>{if(swWaiting)swWaiting.postMessage({type:'SKIP_WAITING'})};$('hideUpdate').onclick=()=>$('updateBanner').classList.add('hidden');
