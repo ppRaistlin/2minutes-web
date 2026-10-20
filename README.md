@@ -1,4 +1,4 @@
-# 2minutes Web/PWA v1.0.6
+# 2minutes Web/PWA v1.0.7
 
 **Nouveau :** slogan « Réfléchissez deux minutes », fond distinct sur l’icône de navigation active, section « Derniers articles » avec recherche dans les titres et extraits liés les plus plébiscités.
 
