@@ -1,3 +1,15 @@
+# 2minutes Web/PWA v1.0.6
+
+**Nouveau :** slogan « Réfléchissez deux minutes », fond distinct sur l’icône de navigation active, section « Derniers articles » avec recherche dans les titres et extraits liés les plus plébiscités.
+
+## Étape Supabase obligatoire pour « Derniers articles »
+
+La version précédente n'expose pas de RPC de liste des articles récents. Ouvrir **Supabase → SQL Editor**, examiner et exécuter `supabase-latest-articles-readonly.sql` : cette fonction est en lecture seule, accessible publiquement, limitée à 50 articles par appel, et ne modifie ni tables, ni votes, ni extensions. Sans cette étape, un message explicite est affiché dans la rubrique, sans données fictives.
+
+**Photos :** le schéma `tm_articles` existant ne contient aucune URL de photographie d’article. Un visuel « Photo non disponible » est affiché tant qu’un pipeline de métadonnées autorisé n’a pas été conçu ; aucune photo trompeuse n’est inventée.
+
+"Derniers" signifie derniers liens enregistrés par la communauté, pas tous les derniers articles publiés par les journaux. La recherche est exécutée côté Supabase dans le champ titre, et le passage affiché pour chaque lien est celui au meilleur score pertinent/hors sujet, lorsqu’il en existe.
+
 # 2minutes Web/PWA v1.0.5 — mise à jour visuelle
 
 Source : extension 2minutes V2.1.36. Site statique indépendant ; aucune modification des extensions ni aucune migration SQL.
