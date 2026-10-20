@@ -73,3 +73,31 @@ body{padding-bottom:0}
 /* V1.0.11 : slogan sur deux lignes distinctes, sans retour dans chaque phrase sur ordinateur. */
 @media(min-width:681px){.headerSlogan{min-width:0;flex:1;text-align:center}.headerSlogan h1{font-size:clamp(20px,2.35vw,32px);white-space:nowrap;line-height:1.2;margin:0 0 10px}.headerSlogan p{font-size:clamp(14px,1.55vw,20px);white-space:nowrap;line-height:1.4}}
 @media(max-width:680px){.headerSlogan h1,.headerSlogan p{white-space:normal;overflow-wrap:normal;text-wrap:balance}}
+
+/* V1.0.12 : mobile — logo et navigation au-dessus, deux phrases en dessous. */
+@media (max-width:680px) {
+  .head {
+    display:grid;
+    grid-template-columns:auto minmax(0,1fr);
+    grid-template-rows:auto auto;
+    align-items:center;
+    column-gap:12px;
+    row-gap:5px;
+    min-height:0;
+    padding-top:12px;
+    padding-bottom:20px;
+  }
+  .head .brandVideo { grid-column:1; grid-row:1; justify-self:start; min-width:0; }
+  .head .headtools { grid-column:2; grid-row:1; justify-self:end; max-width:none; display:flex; flex-direction:row; flex-wrap:nowrap; gap:2px; }
+  .head .headerSlogan { grid-column:1/-1; grid-row:2; width:100%; text-align:center; padding:8px 2px 0; }
+  .headerSlogan h1 { font-size:clamp(23px,6vw,32px); line-height:1.15; margin-bottom:8px; white-space:normal; }
+  .headerSlogan p { font-size:clamp(15px,4vw,19px); line-height:1.4; white-space:normal; }
+}
+@media (max-width:380px) {
+  .head {column-gap:5px;}
+  .head .brandVideo img {width:86px;height:86px;}
+  .head .headtools {gap:0;}
+  .head .headtools .iconBtn {width:38px;height:40px;padding:6px;}
+  .head .kofiHeaderBtn {width:40px;height:40px;}
+  .head .kofiHeaderBtn img {width:40px;height:40px;}
+}
