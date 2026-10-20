@@ -58,3 +58,9 @@ body{padding-bottom:0}
 .kofiHeaderBtn:focus-visible{outline:3px solid #7aa7ff;outline-offset:3px}
 @media(max-width:680px){.headtools{max-width:138px}.kofiHeaderBtn{width:42px;height:42px}.kofiHeaderBtn img{width:38px;height:38px}}
 @media(max-width:420px){.headtools{max-width:138px}}
+
+/* V1.0.9 — Larger Ko-fi cup, no blue tile or backdrop */
+.kofiHeaderBtn{width:66px;height:66px;border:0;background:transparent;border-radius:0;overflow:visible;padding:0}
+.kofiHeaderBtn img{width:64px;height:64px;object-fit:contain;border-radius:0}
+@media(max-width:680px){.headtools{max-width:170px}.kofiHeaderBtn{width:58px;height:58px}.kofiHeaderBtn img{width:56px;height:56px}}
+@media(max-width:420px){.headtools{max-width:170px}}
