@@ -132,3 +132,8 @@ body{padding-bottom:0}
 .comicThumbs{display:none!important}
 .comicDialog{padding:16px}
 @media(max-width:680px){.comicNav{flex:0 0 46px}.comicNav svg{width:27px;height:27px}.comicDialog{max-height:calc(100dvh - 24px);overflow:auto}}
+
+/* v1.0.17: place help above its ? trigger; backdrop closes it */
+.urlHelp[open] summary{z-index:auto}
+.urlHelp[open]::before{z-index:70}
+.urlHelp[open] .urlHelpText{z-index:71}

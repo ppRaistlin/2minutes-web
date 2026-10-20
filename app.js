@@ -90,7 +90,7 @@ async function analyze(raw,title=''){let url;try{url=canonicalForDB(raw)}catch{$
 // The URL-help tooltip is a centered overlay on all screen sizes.
 const urlHelp=document.querySelector('.urlHelp');
 document.addEventListener('pointerdown',event=>{
-  if(urlHelp.open&&!urlHelp.contains(event.target))urlHelp.open=false;
+  if(urlHelp.open && !event.target.closest('.urlHelpText') && !event.target.closest('.urlHelp > summary')) urlHelp.open=false;
 });
 document.addEventListener('keydown',event=>{
   if(event.key==='Escape'&&urlHelp.open){urlHelp.open=false;event.preventDefault()}
