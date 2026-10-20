@@ -13,3 +13,13 @@
 .brand{min-width:156px}
 .brand img{width:156px;height:156px}
 @media(max-width:680px){.head{height:150px}.brand{min-width:138px}.brand img{width:138px;height:138px}}
+
+/* V1.0.4 — logo left, headline + tagline right, no navigation bars */
+.head{height:auto;min-height:170px;gap:24px;justify-content:space-between}
+.headerSlogan{flex:1;min-width:0;text-align:center;padding:12px 8px}
+.headerSlogan h1{font-size:clamp(24px,3.6vw,48px);line-height:1.13;margin:0 0 12px;color:#f0f4fa}
+.headerSlogan p{font-size:clamp(14px,1.6vw,21px);line-height:1.4;margin:0;color:#c3d3eb}
+.headtools{flex-shrink:0}
+body{padding-bottom:0}
+@media(max-width:680px){.head{min-height:150px;height:auto;gap:8px;padding-top:8px;padding-bottom:8px}.headerSlogan{padding:6px 0;text-align:left}.headerSlogan h1{font-size:clamp(19px,5vw,29px);margin-bottom:6px}.headerSlogan p{font-size:clamp(11px,3vw,15px)}.headtools{gap:0;flex-direction:column}.iconBtn{padding:7px;font-size:21px}body{padding-bottom:0}}
+@media(max-width:390px){.brand{min-width:98px}.brand img{width:98px;height:98px}.headerSlogan h1{font-size:20px}}
