@@ -64,3 +64,8 @@ body{padding-bottom:0}
 .kofiHeaderBtn img{width:64px;height:64px;object-fit:contain;border-radius:0}
 @media(max-width:680px){.headtools{max-width:170px}.kofiHeaderBtn{width:58px;height:58px}.kofiHeaderBtn img{width:56px;height:56px}}
 @media(max-width:420px){.headtools{max-width:170px}}
+
+/* v1.0.10 — Ko-fi 42px sur fond bleu */
+.kofiHeaderBtn{width:42px;height:42px;min-width:42px;min-height:42px;padding:0;background:#1769d2;border-radius:10px;overflow:hidden}
+.kofiHeaderBtn img{width:42px;height:42px;object-fit:contain;border-radius:0}
+@media(max-width:680px){.kofiHeaderBtn{width:42px;height:42px}.kofiHeaderBtn img{width:42px;height:42px}}

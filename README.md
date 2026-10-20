@@ -1,6 +1,8 @@
-# 2minutes Web/PWA v1.0.9
+# 2minutes Web/PWA v1.0.10
 
-## V1.0.9
+## V1.0.10
+- Bouton Ko-fi 42 x 42 px, fond bleu.
+
 - Ajout du bouton Ko-fi immédiatement à droite de Paramètres. Il ouvre https://ko-fi.com/ppraistlin dans un nouvel onglet.
 - Visuel fourni utilisé pour le bouton.
 - Cache PWA actualisé pour inclure le visuel.
