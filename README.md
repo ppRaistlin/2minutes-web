@@ -1,4 +1,4 @@
-# 2minutes Web/PWA v1.0.4 — mise à jour visuelle
+# 2minutes Web/PWA v1.0.5 — mise à jour visuelle
 
 Source : extension 2minutes V2.1.36. Site statique indépendant ; aucune modification des extensions ni aucune migration SQL.
 
@@ -37,15 +37,21 @@ La clé `sb_publishable_` est publique par définition. Ne jamais y placer une c
 - Titre éditable dans la fiche article. Aucune extraction CORS miraculeuse : un vrai service de métadonnées serveur sera nécessaire pour automatiser cela sur des sites qui bloquent la lecture cross-origin.
 - Recherche Google externe sur demande, sans clé payante, sans mutation Supabase.
 
-## V1.0.4 — identité visuelle et version
+## V1.0.5 — identité visuelle et version
 
 - Le titre texte 2min de la barre supérieure est remplacé par l’icône d’origine (`icons/icon128.png`).
-- La version `v1.0.4` est visible en pied de page et dans les paramètres.
-- Cache PWA versionné en `2minutes-pwa-v1.0.4`.
+- La version `v1.0.5` est visible en pied de page et dans les paramètres.
+- Cache PWA versionné en `2minutes-pwa-v1.0.5`.
 
 
-### 1.0.4
+### 1.0.5
 - Démarrage automatique de la vidéo à l’ouverture du dialogue (avec repli si lecture bloquée par le navigateur).
 - Icône de l’en-tête agrandie x3 : 156 px sur ordinateur, 138 px sur mobile.
 
-V1.0.4: Video loops; logo left and slogan/tagline in header; top and bottom navigation links hidden.
+V1.0.5: Video loops; logo left and slogan/tagline in header; top and bottom navigation links hidden.
+
+## V1.0.5
+- Lecture vidéo en cliquant sur le logo, boucle maintenue et attribution Jacques Chirac.
+- Navigation en-tête par icônes Accueil et Médias, paramètres conservés.
+- Suppression des deux raccourcis Accueil vers médias et favoris.
+- Pays par défaut configurable dans Paramètres, repris dans le filtre annuaire et stocké localement.

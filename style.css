@@ -23,3 +23,13 @@
 body{padding-bottom:0}
 @media(max-width:680px){.head{min-height:150px;height:auto;gap:8px;padding-top:8px;padding-bottom:8px}.headerSlogan{padding:6px 0;text-align:left}.headerSlogan h1{font-size:clamp(19px,5vw,29px);margin-bottom:6px}.headerSlogan p{font-size:clamp(11px,3vw,15px)}.headtools{gap:0;flex-direction:column}.iconBtn{padding:7px;font-size:21px}body{padding-bottom:0}}
 @media(max-width:390px){.brand{min-width:98px}.brand img{width:98px;height:98px}.headerSlogan h1{font-size:20px}}
+
+/* V1.0.5 — clickable brand for video, icon navigation, settings country */
+.brandVideo{border:0;background:transparent;padding:0;cursor:pointer;flex-shrink:0;border-radius:12px}
+.brandVideo:hover{filter:brightness(1.12)}
+.brandVideo:focus-visible{outline:3px solid #7aa7ff;outline-offset:3px}
+.headtools .iconBtn{width:46px;height:46px;display:inline-flex;align-items:center;justify-content:center}
+.headtools .iconBtn svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+#videoDialog .videoAttribution{text-align:center;font-size:14px;color:var(--muted);margin-top:-5px}
+@media(max-width:680px){.headtools{flex-direction:row;flex-wrap:wrap;justify-content:flex-end;max-width:96px;gap:0}.headtools .iconBtn{width:42px;height:42px}.headtools .iconBtn svg{width:23px;height:23px}}
+@media(max-width:420px){.head{gap:5px}.headtools{max-width:48px}.brand{min-width:96px}.brand img{width:96px;height:96px}.headerSlogan h1{font-size:18px}}
