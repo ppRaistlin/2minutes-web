@@ -69,3 +69,7 @@ body{padding-bottom:0}
 .kofiHeaderBtn{width:42px;height:42px;min-width:42px;min-height:42px;padding:0;background:#1769d2;border-radius:10px;overflow:hidden}
 .kofiHeaderBtn img{width:42px;height:42px;object-fit:contain;border-radius:0}
 @media(max-width:680px){.kofiHeaderBtn{width:42px;height:42px}.kofiHeaderBtn img{width:42px;height:42px}}
+
+/* V1.0.11 : slogan sur deux lignes distinctes, sans retour dans chaque phrase sur ordinateur. */
+@media(min-width:681px){.headerSlogan{min-width:0;flex:1;text-align:center}.headerSlogan h1{font-size:clamp(20px,2.35vw,32px);white-space:nowrap;line-height:1.2;margin:0 0 10px}.headerSlogan p{font-size:clamp(14px,1.55vw,20px);white-space:nowrap;line-height:1.4}}
+@media(max-width:680px){.headerSlogan h1,.headerSlogan p{white-space:normal;overflow-wrap:normal;text-wrap:balance}}
