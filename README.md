@@ -1,4 +1,4 @@
-# 2minutes Web/PWA v1.0.14
+# 2minutes Web/PWA v1.0.15
 
 ## V1.0.13
 
@@ -82,3 +82,9 @@ V1.0.5: Video loops; logo left and slogan/tagline in header; top and bottom navi
 - Navigation en-tête par icônes Accueil et Médias, paramètres conservés.
 - Suppression des deux raccourcis Accueil vers médias et favoris.
 - Pays par défaut configurable dans Paramètres, repris dans le filtre annuaire et stocké localement.
+
+## V1.0.15
+- Lecteur BD sans bande de miniatures ni croix : fermeture par clic hors modale ou touche Échap.
+- Six images JPG fournies par l’utilisateur, copiées à l’identique et dans le même ordre.
+- Flèches SVG centrées dans les boutons circulaires ; swipe mobile conservé.
+- Aide de l’adresse URL en fenêtre centrée et limitée à la hauteur de l’écran.

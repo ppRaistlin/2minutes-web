@@ -7,12 +7,12 @@ const inferredCountry=(()=>{const locale=navigator.language||'fr-FR',region=loca
 let prefs=read('prefs',{theme:'auto',lang:nativeLang,period:'7',country:inferredCountry}),favs=new Set(read('favorites',[])),history=read('history',[]),current=null,view='home',mediaLimit=50,swWaiting=null;
 
 const COMICS=[
-  {src:'./comics/bd1-cadrage.png',title:'BD 1 · Le biais de cadrage'},
-  {src:'./comics/bd2-autorite.png',title:'BD 2 · Le biais d’autorité'},
-  {src:'./comics/bd3-repetition.png',title:'BD 3 · Le biais de répétition'},
-  {src:'./comics/bd4-omission.png',title:'BD 4 · Le biais d’omission'},
-  {src:'./comics/bd5-emotionnel.png',title:'BD 5 · Le biais émotionnel'},
-  {src:'./comics/bd6-confirmation.png',title:'BD 6 · Le biais de confirmation'}
+  {src:'./comics/bd1-cadrage.jpg',title:'BD 1 · Le biais de cadrage'},
+  {src:'./comics/bd2-autorite.jpg',title:'BD 2 · Le biais d’autorité'},
+  {src:'./comics/bd3-repetition.jpg',title:'BD 3 · Le biais de répétition'},
+  {src:'./comics/bd4-omission.jpg',title:'BD 4 · Le biais d’omission'},
+  {src:'./comics/bd5-emotionnel.jpg',title:'BD 5 · Le biais émotionnel'},
+  {src:'./comics/bd6-confirmation.jpg',title:'BD 6 · Le biais de confirmation'}
 ];
 let comicIndex=0,comicTouchStartX=null;
 
@@ -86,15 +86,24 @@ $('exploreButton').onclick=()=>{if(!current)return;$('exploreContent').classList
 $('keywords').oninput=renderSearchSources;$('period').onchange=()=>{prefs.period=$('period').value;store('prefs',prefs);renderSearchSources()};
 $('articleTitleInput').onchange=()=>{if(!current)return;current.realTitle=$('articleTitleInput').value.trim();current.title=current.realTitle||current.domain;$('articleHeadline').textContent=current.realTitle||'Article sur '+current.domain;record(current.url,current.title);if(!$('exploreContent').classList.contains('hidden')){$('keywords').value=suggestKeywords();renderSearchSources()}};
 async function analyze(raw,title=''){let url;try{url=canonicalForDB(raw)}catch{$('articleUrl').setCustomValidity('Veuillez saisir une URL http(s) valide.');$('articleUrl').reportValidity();return}$('articleUrl').setCustomValidity('');const d=domain(url),b=biasOf(d);current={url,domain:d,bias:b,realTitle:title&&title!==d?title:'',title:title||d};$('articleTitleInput').value=current.realTitle;$('articleHeadline').textContent=current.title===d?'Article sur '+d:current.title;$('articleDomain').textContent=d;const orient=$('articleBias');orient.textContent=b?labelFor(b.score):'Média non répertorié — orientation non déterminée';orient.style.backgroundColor=b&&colors[String(b.score)]||'#64748b';$('originalLink').href=url;$('communityStatus').textContent='Recherche des contributions existantes…';$('communityCards').replaceChildren();$('communityCount').textContent='';$('exploreContent').classList.add('hidden');$('keywords').value='';$('period').value=prefs.period||'7';renderCurrentFav();record(url,current.title);show('analysis');try{let rows=await community(url);if(current?.url===url)renderContributions(rows)}catch(e){if(current?.url===url)$('communityStatus').textContent=e.message+' Vous pouvez néanmoins explorer d’autres sources.'}}
+
+// The URL-help tooltip is a centered overlay on all screen sizes.
+const urlHelp=document.querySelector('.urlHelp');
+document.addEventListener('pointerdown',event=>{
+  if(urlHelp.open&&!urlHelp.contains(event.target))urlHelp.open=false;
+});
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&urlHelp.open){urlHelp.open=false;event.preventDefault()}
+});
+
 $('articleForm').onsubmit=e=>{e.preventDefault();analyze($('articleUrl').value)};$('articleUrl').addEventListener('input',()=> $('articleUrl').setCustomValidity(''));
 function setTheme(){let dark=prefs.theme==='dark'||prefs.theme==='auto'&&matchMedia('(prefers-color-scheme: dark)').matches;document.body.dataset.theme=dark?'dark':'light'}$('themeSelect').value=prefs.theme||'auto';$('themeSelect').onchange=()=>{prefs.theme=$('themeSelect').value;store('prefs',prefs);setTheme()};matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',setTheme);setTheme();
 $('defaultPeriod').value=prefs.period||'7';$('defaultPeriod').onchange=()=>{prefs.period=$('defaultPeriod').value;store('prefs',prefs)};
 const languageNames={fr:'Français',en:'English',es:'Español',de:'Deutsch',it:'Italiano',pt:'Português',nl:'Nederlands',pl:'Polski'};for(let l of TWO_MIN_LANGS){$('uiLanguage').add(new Option(languageNames[l]||l,l))};$('uiLanguage').value=TWO_MIN_LANGS.includes(prefs.lang)?prefs.lang:'fr';$('uiLanguage').onchange=()=>{prefs.lang=$('uiLanguage').value;store('prefs',prefs);setUILang(prefs.lang);applyLang()};function applyLang(){setUILang(prefs.lang);document.documentElement.lang=UI_LANG;$('heroSub').textContent='Confrontons les points de vue';$('exploreButton').textContent=T('perspective')+' →';}applyLang();
 
-function renderComicThumbs(){const wrap=$('comicThumbs');wrap.replaceChildren(...COMICS.map((item,index)=>{const b=node('button','comicThumb'+(index===comicIndex?' active':''));b.type='button';b.setAttribute('aria-label',item.title);const img=document.createElement('img');img.src=item.src;img.alt=item.title;img.loading='lazy';b.append(img);b.onclick=()=>showComic(index);return b}))}
-function showComic(index){comicIndex=(index+COMICS.length)%COMICS.length;const item=COMICS[comicIndex];$('comicImage').src=item.src;$('comicImage').alt=item.title;$('comicCounter').textContent=item.title+' · '+(comicIndex+1)+' / '+COMICS.length;q('#comicThumbs .comicThumb').forEach((btn,i)=>btn.classList.toggle('active',i===comicIndex));}
-function openComic(index=0){const dialog=$('comicDialog');if(!dialog.open){dialog.showModal();renderComicThumbs();}showComic(index)}
-$('comicButton').onclick=()=>openComic(0);$('comicPrev').onclick=()=>showComic(comicIndex-1);$('comicNext').onclick=()=>showComic(comicIndex+1);$('closeComic').onclick=()=>$('comicDialog').close();$('comicDialog').addEventListener('click',e=>{const rect=$('comicDialog').getBoundingClientRect();if(e.target===$('comicDialog')&&(e.clientY<rect.top||e.clientY>rect.bottom||e.clientX<rect.left||e.clientX>rect.right))$('comicDialog').close()});
+function showComic(index){comicIndex=(index+COMICS.length)%COMICS.length;const item=COMICS[comicIndex];$('comicImage').src=item.src;$('comicImage').alt=item.title;$('comicCounter').textContent=item.title+' · '+(comicIndex+1)+' / '+COMICS.length;}
+function openComic(index=0){const dialog=$('comicDialog');if(!dialog.open){dialog.showModal();}showComic(index)}
+$('comicButton').onclick=()=>openComic(0);$('comicPrev').onclick=()=>showComic(comicIndex-1);$('comicNext').onclick=()=>showComic(comicIndex+1);$('comicDialog').addEventListener('click',e=>{const rect=$('comicDialog').getBoundingClientRect();if(e.target===$('comicDialog')&&(e.clientY<rect.top||e.clientY>rect.bottom||e.clientX<rect.left||e.clientX>rect.right))$('comicDialog').close()});
 $('comicTrack').addEventListener('touchstart',e=>{comicTouchStartX=e.changedTouches[0].clientX},{passive:true});
 $('comicTrack').addEventListener('touchend',e=>{if(comicTouchStartX===null)return;const dx=e.changedTouches[0].clientX-comicTouchStartX;if(Math.abs(dx)>45)showComic(comicIndex+(dx<0?1:-1));comicTouchStartX=null},{passive:true});
 $('comicDialog').addEventListener('keydown',e=>{if(!$('comicDialog').open)return;if(e.key==='ArrowLeft')showComic(comicIndex-1);if(e.key==='ArrowRight')showComic(comicIndex+1)});
