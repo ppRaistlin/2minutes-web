@@ -1,4 +1,11 @@
-# 2minutes Web/PWA v1.0.12
+# 2minutes Web/PWA v1.0.13
+
+## V1.0.13
+
+- Bouton principal « Comparer » au lieu de « Analyser ».
+- Suppression du texte sur le partage d’URL sous le formulaire.
+- Aide « ? » accessible à côté d’« Adresse de l’article » : copie du lien et suppression manuelle des paramètres superflus.
+- Cache PWA renouvelé.
 
 ## V1.0.12
 - Bouton Ko-fi 42 x 42 px, fond bleu.
