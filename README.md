@@ -1,4 +1,10 @@
-# 2minutes Web/PWA v1.0.7
+# 2minutes Web/PWA v1.0.8
+
+## V1.0.8
+- Ajout du bouton Ko-fi immédiatement à droite de Paramètres. Il ouvre https://ko-fi.com/ppraistlin dans un nouvel onglet.
+- Visuel fourni utilisé pour le bouton.
+- Cache PWA actualisé pour inclure le visuel.
+
 
 **Nouveau :** slogan « Réfléchissez deux minutes », fond distinct sur l’icône de navigation active, section « Derniers articles » avec recherche dans les titres et extraits liés les plus plébiscités.
 

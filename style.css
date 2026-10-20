@@ -50,3 +50,11 @@ body{padding-bottom:0}
 .filters .mediaFavorites + label ~ input,.filters .mediaFavorites + label ~ select{grid-row:3}
 .filters #mediaTotal{grid-row:4}
 @media(max-width:680px){.filters .mediaFavorites + label,.filters .mediaFavorites + label ~ label,.filters .mediaFavorites + label ~ input,.filters .mediaFavorites + label ~ select,.filters #mediaTotal{grid-row:auto}.mediaFavoriteList{grid-template-columns:1fr}}
+
+/* V1.0.8 — Ko-fi right of settings */
+.kofiHeaderBtn{display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;width:46px;height:46px;border-radius:11px;overflow:hidden;text-decoration:none}
+.kofiHeaderBtn img{width:40px;height:40px;object-fit:contain;display:block;border-radius:9px}
+.kofiHeaderBtn:hover{filter:brightness(1.15)}
+.kofiHeaderBtn:focus-visible{outline:3px solid #7aa7ff;outline-offset:3px}
+@media(max-width:680px){.headtools{max-width:138px}.kofiHeaderBtn{width:42px;height:42px}.kofiHeaderBtn img{width:38px;height:38px}}
+@media(max-width:420px){.headtools{max-width:138px}}
