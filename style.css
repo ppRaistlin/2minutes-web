@@ -237,3 +237,74 @@ body{padding-bottom:0}
 .latestPointsGroup .latestRelations{margin:0}
 .latestPointsGroup .latestRelation{background:var(--surface)}
 @media(max-width:680px){.latestPointsGroup .latestLinked:not([hidden]){padding:0 8px 8px}}
+
+
+/* V1.0.25 — Journal épuré, sans cartes ni boîtes imbriquées */
+#latestArticles.latestArticles{
+  width:100%;max-width:1000px;margin:24px auto 30px;padding:0;
+  border:0;border-radius:0;background:transparent;box-shadow:none;
+}
+#latestArticles>h2,#latestArticles>.between{margin:0 0 14px}
+#latestArticles label{margin-top:14px}
+#latestArticles #latestStatus{margin:12px 0 8px}
+#latestArticles .latestList{display:block;margin-top:8px}
+#latestArticles .latestCard{
+  display:block;width:100%;min-width:0;max-width:100%;
+  margin:0;padding:22px 0 24px;background:transparent;
+  border:0;border-bottom:1px solid var(--border);border-radius:0;
+  box-shadow:none;overflow:visible;
+}
+#latestArticles .latestCard:first-child{padding-top:12px}
+#latestArticles .latestCard:last-child{border-bottom:0}
+#latestArticles .latestCardHeader{display:grid;grid-template-columns:152px minmax(0,1fr);gap:18px;align-items:start;margin:0}
+#latestArticles .latestThumb{width:152px;height:112px;min-height:0;aspect-ratio:4/3;background:var(--surface);border-radius:8px;overflow:hidden}
+#latestArticles .latestThumb .latestImage,#latestArticles .latestThumb a{width:100%;height:100%;aspect-ratio:auto}
+#latestArticles .latestThumb img{width:100%;height:100%;object-fit:cover}
+#latestArticles .latestIntro{gap:5px;min-width:0}
+#latestArticles .latestTitle{margin:0;font-size:clamp(17px,2vw,21px);line-height:1.35;font-weight:700}
+#latestArticles .latestTitle a{color:var(--text);text-decoration:none}
+#latestArticles .latestTitle a:hover{color:var(--blue);text-decoration:underline}
+#latestArticles .latestDetails{display:flex;align-items:center;flex-wrap:wrap;gap:0;font-size:13px;color:var(--muted)}
+#latestArticles .editorialDot{display:inline-block;flex:0 0 9px;width:9px;height:9px;border-radius:50%;margin-right:7px}
+#latestArticles .latestDate{color:var(--muted);font-size:12px;margin:0}
+#latestArticles .latestPointsGroup{margin:9px 0 0 170px;border:0;border-radius:0;box-shadow:none;background:transparent;overflow:visible}
+#latestArticles .latestPointsGroup .latestExpand{
+  display:flex;align-items:center;justify-content:flex-start;gap:8px;min-height:44px;
+  padding:8px 0;width:auto;border:0;border-radius:0;background:transparent;
+  color:var(--blue);font-size:14px;box-shadow:none;font-weight:650;
+}
+#latestArticles .latestPointsGroup .latestExpand:hover{text-decoration:underline;background:transparent}
+#latestArticles .latestPointsGroup .latestExpandIcon{order:1;flex:0 0 20px;width:20px;height:20px;color:var(--blue)}
+#latestArticles .latestPointsGroup .latestExpandIcon svg{width:18px;height:18px}
+#latestArticles .latestPointsGroup .latestLinked:not([hidden]){
+  margin-top:4px;padding:0 0 0 16px;border:0;border-left:2px solid var(--border);
+  background:transparent;border-radius:0;
+}
+#latestArticles .latestPointsGroup .latestRelations{margin:0;display:block;padding:0}
+#latestArticles .latestPointsGroup .latestRelation{padding:10px 0;margin:0;background:transparent;border:0;border-radius:0}
+#latestArticles .latestPointsGroup .latestRelation+.latestRelation{border-top:1px solid var(--border)}
+#latestArticles .relatedRow{display:flex;align-items:flex-start;gap:12px;min-width:0}
+#latestArticles .relatedImage{width:84px;height:68px;flex:0 0 84px;min-height:0;border-radius:7px;overflow:hidden;background:var(--surface)}
+#latestArticles .relatedImage img{width:100%;height:100%;object-fit:cover}
+#latestArticles .relatedTitle{font-weight:650;font-size:14px;line-height:1.4;color:var(--text);text-decoration:none}
+#latestArticles .relatedTitle:hover{color:var(--blue);text-decoration:underline}
+#latestArticles .latestExcerpt{margin-top:8px;color:var(--text);font-size:13px;line-height:1.5;white-space:normal}
+#latestArticles .latestVotes{margin:7px 0 0;color:var(--muted);font-size:12px}
+@media(max-width:680px){
+  #latestArticles.latestArticles{padding:0;margin-top:25px}
+  #latestArticles .latestCard{padding:19px 0 21px}
+  #latestArticles .latestCardHeader{display:grid;grid-template-columns:100px minmax(0,1fr);gap:12px}
+  #latestArticles .latestThumb{width:100px;height:88px;aspect-ratio:auto}
+  #latestArticles .latestTitle{font-size:16px;line-height:1.38}
+  #latestArticles .latestDetails{font-size:12px}
+  #latestArticles .latestDate{font-size:11px}
+  #latestArticles .latestPointsGroup{margin:8px 0 0 0}
+  #latestArticles .latestPointsGroup .latestLinked:not([hidden]){padding:0 0 0 12px}
+  #latestArticles .relatedImage{width:72px;height:66px;flex-basis:72px}
+  #latestArticles .latestExcerpt{-webkit-line-clamp:unset;display:block;overflow:visible}
+}
+@media(max-width:370px){
+  #latestArticles .latestCardHeader{grid-template-columns:84px minmax(0,1fr);gap:10px}
+  #latestArticles .latestThumb{width:84px;height:78px}
+  #latestArticles .relatedImage{width:60px;height:56px;flex-basis:60px}
+}

@@ -1,4 +1,14 @@
-# 2minutes Web/PWA V1.0.24 — Articles et images
+# 2Minutes v1.0.25 — Interface « Journal épuré »
+
+La section **Derniers articles** adopte un affichage éditorial sans imbrication de cartes : articles séparés par une ligne, photos compactes à gauche, titres et orientations directement lisibles. Les autres points de vue s’ouvrent en retrait sous un trait vertical, sans fond ni bordure supplémentaire.
+
+**Mobile :** grille compacte image + titre, comparaison dépliable et contenu sans débordement. Le reste du site, les six planches BD d’origine, les préférences locales, les fonctions Supabase et les images déjà enregistrées restent inchangés.
+
+**Aucune migration SQL nécessaire.**
+
+---
+
+# 2minutes Web/PWA V1.0.25 — Articles et images
 
 - Correctif de chargement : suppression du `referrerPolicy=no-referrer` forcé pour les photos des éditeurs ; chargement différé et décodage asynchrone conservés.
 - Distinction claire entre « Aucune photo enregistrée » (URL absente en base) et « Image inaccessible » (URL présente, mais téléchargement échoué).
@@ -111,7 +121,7 @@ V1.0.5: Video loops; logo left and slogan/tagline in header; top and bottom navi
 - Vérifications locales : syntaxe JavaScript, présence des six JPG de l'utilisateur, intégrité ZIP. Tests Supabase réels non exécutés ; migration non appliquée.
 
 
-## V1.0.24 — mise en page des derniers articles
+## V1.0.25 — mise en page des derniers articles
 
 - Cartes restructurées : en-tête compact, photo principale paysage, titre et métadonnées.
 - Articles liés dans une section distincte sur toute la largeur avec miniatures, extraits et votes.
@@ -119,20 +129,20 @@ V1.0.5: Video loops; logo left and slogan/tagline in header; top and bottom navi
 - Aucun changement des fonctions SQL, des données Supabase, des six BD ni de la navigation.
 
 
-## V1.0.24 — Option D
+## V1.0.25 — Option D
 
 Cartes avec image paysage et bouton permettant de déplier les articles liés. Les détails sont fermés par défaut sur mobile (≤680 px) et visibles par défaut sur ordinateur. L’interface conserve les titres, photos, orientations, extraits, votes, recherche et Supabase en lecture seule.
 
-## V1.0.24
+## V1.0.25
 
 - Chevron centré avec SVG.
 - Libellé « Voir X autres points de vue » et « Masquer X autres points de vue ».
 - Suppression du bouton « Voir dans 2minutes » des cartes récentes.
 
 
-### Ajustements V1.0.24
+### Ajustements V1.0.25
 - Historique « Consultés récemment » masqué.
 - Bouton principal « Rechercher ».
 - Suppression du sous-titre « Contributions publiques de 2minutes ».
-- Pied de page « 2Minutes v1.0.24 ».
+- Pied de page « 2Minutes v1.0.25 ».
 - Comparaisons dépliées à l’intérieur du même conteneur que le bouton de dépliage.

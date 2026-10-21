@@ -86,6 +86,7 @@ function latestCard(item){
  trustedArticleLink(link,item.url);tit.append(link);
  const sourceDomain=item.domain||domain(item.url);
  const sub=node('p','latestDetails',sourceDomain+' · '+publicBias(sourceDomain));
+ const sb=biasOf(sourceDomain);if(sb){const dot=node('span','editorialDot');dot.style.backgroundColor=colors[String(sb.score)]||'#64748b';dot.setAttribute('aria-hidden','true');sub.prepend(dot)}
  const dated=node('p','latestDate','Dernière contribution : '+(item.last_linked_at?new Date(item.last_linked_at).toLocaleDateString(prefs.lang||'fr'):'date inconnue'));
  intro.append(tit,sub,dated);head.append(visual,intro);card.append(head);
  const relations=Array.isArray(item.linked_articles)?item.linked_articles:[];
@@ -115,7 +116,8 @@ function latestCard(item){
    const li=node('li','latestRelation'),row=node('div','relatedRow'),information=node('div','relatedText');
    appendArticleImage(row,rel.image_url,rel.url,'relatedImage');
    const a=node('a','relatedTitle',rel.title||rel.domain||'Article lié');trustedArticleLink(a,rel.url);information.append(a);
-   const relatedDomain=rel.domain||domain(rel.url);information.append(node('p','latestDetails',relatedDomain+' · '+publicBias(relatedDomain)));
+   const relatedDomain=rel.domain||domain(rel.url);const relatedMeta=node('p','latestDetails',relatedDomain+' · '+publicBias(relatedDomain));
+   const rb=biasOf(relatedDomain);if(rb){const dot=node('span','editorialDot');dot.style.backgroundColor=colors[String(rb.score)]||'#64748b';dot.setAttribute('aria-hidden','true');relatedMeta.prepend(dot)}information.append(relatedMeta);
    if(rel.excerpt){
     information.append(node('span','latestExcerpt','« '+rel.excerpt+' »'));
     information.append(node('div','latestVotes','↑ '+Number(rel.upvotes||0)+' pertinents · ↓ '+Number(rel.downvotes||0)+' hors sujet'));
