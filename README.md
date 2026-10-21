@@ -1,4 +1,4 @@
-# 2Minutes v1.0.29 — Filtres et points de vue
+# 2Minutes v1.0.32 — Filtres et points de vue
 
 - Points de vue fermés par défaut sur mobile et ordinateur.
 - Plusieurs points de vue : défilement horizontal tactile et à la souris, avec scroll-snap.
@@ -8,7 +8,7 @@
 
 ---
 
-# 2Minutes v1.0.29 — Interface « Journal épuré »
+# 2Minutes v1.0.32 — Interface « Journal épuré »
 
 La section **Derniers articles** adopte un affichage éditorial sans imbrication de cartes : articles séparés par une ligne, photos compactes à gauche, titres et orientations directement lisibles. Les autres points de vue s’ouvrent en retrait sous un trait vertical, sans fond ni bordure supplémentaire.
 
@@ -18,7 +18,7 @@ La section **Derniers articles** adopte un affichage éditorial sans imbrication
 
 ---
 
-# 2minutes Web/PWA V1.0.29 — Articles et images
+# 2minutes Web/PWA V1.0.32 — Articles et images
 
 - Correctif de chargement : suppression du `referrerPolicy=no-referrer` forcé pour les photos des éditeurs ; chargement différé et décodage asynchrone conservés.
 - Distinction claire entre « Aucune photo enregistrée » (URL absente en base) et « Image inaccessible » (URL présente, mais téléchargement échoué).
@@ -131,7 +131,7 @@ V1.0.5: Video loops; logo left and slogan/tagline in header; top and bottom navi
 - Vérifications locales : syntaxe JavaScript, présence des six JPG de l'utilisateur, intégrité ZIP. Tests Supabase réels non exécutés ; migration non appliquée.
 
 
-## V1.0.29 — mise en page des derniers articles
+## V1.0.32 — mise en page des derniers articles
 
 - Cartes restructurées : en-tête compact, photo principale paysage, titre et métadonnées.
 - Articles liés dans une section distincte sur toute la largeur avec miniatures, extraits et votes.
@@ -139,31 +139,31 @@ V1.0.5: Video loops; logo left and slogan/tagline in header; top and bottom navi
 - Aucun changement des fonctions SQL, des données Supabase, des six BD ni de la navigation.
 
 
-## V1.0.29 — Option D
+## V1.0.32 — Option D
 
 Cartes avec image paysage et bouton permettant de déplier les articles liés. Les détails sont fermés par défaut sur mobile (≤680 px) et visibles par défaut sur ordinateur. L’interface conserve les titres, photos, orientations, extraits, votes, recherche et Supabase en lecture seule.
 
-## V1.0.29
+## V1.0.32
 
 - Chevron centré avec SVG.
 - Libellé « Voir X autres points de vue » et « Masquer X autres points de vue ».
 - Suppression du bouton « Voir dans 2minutes » des cartes récentes.
 
 
-### Ajustements V1.0.29
+### Ajustements V1.0.32
 - Historique « Consultés récemment » masqué.
 - Bouton principal « Rechercher ».
 - Suppression du sous-titre « Contributions publiques de 2minutes ».
-- Pied de page « 2Minutes v1.0.29 ».
+- Pied de page « 2Minutes v1.0.32 ».
 - Comparaisons dépliées à l’intérieur du même conteneur que le bouton de dépliage.
 
 
-## V1.0.29 — Organisation des filtres
+## V1.0.32 — Organisation des filtres
 
 Les quatre filtres sont regroupés dans deux sections : Articles sources (Orientation, Média) et Points de vue (Orientation, Média). Les identifiants et la logique de filtrage existante restent inchangés.
 
 
-## V1.0.29 — essai de couleurs clair / sombre
+## V1.0.32 — essai de couleurs clair / sombre
 
 - Thème clair : fond bleu-gris très pâle, cartes blanches et texte bleu nuit.
 - Thème sombre : bleu nuit et surfaces ardoise, liens bleu doux.
@@ -174,6 +174,21 @@ Les quatre filtres sont regroupés dans deux sections : Articles sources (Orient
 - Aucun changement des fonctions SQL ou de la logique métier.
 
 
-## V1.0.29 — Graphite & Ivoire
+## V1.0.32 — Graphite & Ivoire
 
 Palette alternative A. Thème clair : fond ivoire, blanc, texte graphite et accent cuivre. Thème sombre : graphite presque noir, surfaces charbon et cuivre clair. Les couleurs éditoriales (gauche rouge et droite bleue), les filtres, les points de vue dépliables, le lecteur BD, la vidéo, Supabase et les réglages restent inchangés. Les thèmes sont sélectionnables dans Paramètres → Apparence.
+
+
+## V1.0.32
+
+- Fond du bouton Ko-fi adapté à la palette : cuivre en thème clair et bronze en thème sombre, icône inchangée.
+
+
+## V1.0.32 — Focus harmonisés
+
+Suppression de tous les contours bleus du site ; les indicateurs de focus clavier adoptent le cuivre (clair) et le bronze (sombre), sans perdre l’accessibilité. Les couleurs des orientations éditoriales restent inchangées. Les menus natifs peuvent employer une couleur de surbrillance définie par le système d’exploitation.
+
+
+## V1.0.32 — Retour aux couleurs précédentes
+
+Retour aux couleurs clair et sombre de la V1.0.28 (bleu-gris clair et bleu nuit), avec les fonctionnalités conservées de la V1.0.31. Couleurs éditoriales inchangées.
