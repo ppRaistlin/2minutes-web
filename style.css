@@ -329,3 +329,12 @@ body{padding-bottom:0}
  #latestArticles .latestFilterPanel{padding-top:10px}
  #latestArticles .latestRelationsScrollable>.latestRelation{flex-basis:86%;padding-right:9px!important}
 }
+
+/* V1.0.27 — filtres organisés par catégorie */
+#latestArticles .latestFilterGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+#latestArticles .filterGroup{min-width:0;min-inline-size:0;margin:0;padding:14px;border:1px solid var(--border);border-radius:13px}
+#latestArticles .filterGroup legend{padding:0 6px;font-size:15px;font-weight:750;color:var(--text)}
+#latestArticles .filterGroupFields{display:grid;grid-template-columns:1fr;gap:12px}
+#latestArticles .filterGroupFields label{display:block;font-size:13px;font-weight:600;margin:0 0 7px}
+#latestArticles .filterGroupFields select{width:100%;min-width:0}
+@media(max-width:680px){#latestArticles .latestFilterGrid{grid-template-columns:1fr;gap:12px}#latestArticles .filterGroup{padding:12px}}
