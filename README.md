@@ -1,4 +1,4 @@
-# 2minutes Web/PWA V1.0.19 — Images
+# 2minutes Web/PWA V1.0.20 — Articles et images
 
 - Correctif de chargement : suppression du `referrerPolicy=no-referrer` forcé pour les photos des éditeurs ; chargement différé et décodage asynchrone conservés.
 - Distinction claire entre « Aucune photo enregistrée » (URL absente en base) et « Image inaccessible » (URL présente, mais téléchargement échoué).
