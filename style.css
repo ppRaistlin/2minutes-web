@@ -458,3 +458,6 @@ body:not([data-theme="dark"]) .headtools .iconBtn.activePage {background:var(--h
 
 /* V1.0.36 — fond des champs légèrement plus soutenu en thème clair uniquement. */
 body[data-theme="light"] input, body[data-theme="light"] select, body[data-theme="light"] textarea { background-color:#e8edf4; }
+
+/* V1.0.37 — fond blanc uniquement pour la recherche par titre en thème clair. */
+body[data-theme="light"] #latestSearch { background-color:#ffffff; }
