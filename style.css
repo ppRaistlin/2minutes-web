@@ -455,3 +455,6 @@ body:not([data-theme="dark"]) .latestExpand {background:transparent;color:var(--
 body:not([data-theme="dark"]) .subtle,body:not([data-theme="dark"]) .back {background:transparent;color:var(--text)}
 body:not([data-theme="dark"]) .urlHelp>summary {background:var(--bg);color:var(--text)}
 body:not([data-theme="dark"]) .headtools .iconBtn.activePage {background:var(--hover-surface);color:var(--blue)}
+
+/* V1.0.36 — fond des champs légèrement plus soutenu en thème clair uniquement. */
+body[data-theme="light"] input, body[data-theme="light"] select, body[data-theme="light"] textarea { background-color:#e8edf4; }
