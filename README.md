@@ -88,3 +88,14 @@ V1.0.5: Video loops; logo left and slogan/tagline in header; top and bottom navi
 - Six images JPG fournies par l’utilisateur, copiées à l’identique et dans le même ordre.
 - Flèches SVG centrées dans les boutons circulaires ; swipe mobile conservé.
 - Aide de l’adresse URL en fenêtre centrée et limitée à la hauteur de l’écran.
+
+## V1.0.18 — Images des articles (extension V2.1.42)
+- Les images des articles principaux et liés sont maintenant affichées depuis leurs propres champs `image_url`, sans réutiliser une autre image.
+- Les cartes montrent média, orientation, date de dernière contribution, extrait plébiscité et votes.
+- Comparer utilise `list_article_views_v3` avec repli sur V2, et `get_public_article_metadata_v1` pour le titre/l'image de l'article principal.
+- La section Derniers articles utilise `list_recent_articles_public_v2` avec repli sur V1 (sans photos).
+- **Migration SQL à exécuter manuellement** : `supabase-web-article-images-readonly-v2.sql`. Nécessite les migrations de l'extension V2.1.37 et V2.1.42. Ne pas exécuter si `tm_articles.image_url` n'existe pas.
+- Aucun changement d'interface d'écriture, aucun changement de RLS, aucune modification des contributions existantes.
+- Sur GitHub Pages, les images externes peuvent ne pas s'afficher lorsque le serveur distant bloque l'intégration ; un emplacement neutre apparaît.
+- La fonction SQL ne lit que les articles présents dans les liens communautaires ; aucun historique privé n'est exposé.
+- Vérifications locales : syntaxe JavaScript, présence des six JPG de l'utilisateur, intégrité ZIP. Tests Supabase réels non exécutés ; migration non appliquée.

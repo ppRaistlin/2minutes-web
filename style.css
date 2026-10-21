@@ -137,3 +137,11 @@ body{padding-bottom:0}
 .urlHelp[open] summary{z-index:auto}
 .urlHelp[open]::before{z-index:70}
 .urlHelp[open] .urlHelpText{z-index:71}
+
+/* V1.0.18 — images provenant de l'extension */
+.latestImageLink{display:block;width:100%;height:100%}.latestImage,.mainArticleImage,.contributionImage,.relatedImage{overflow:hidden;display:flex;align-items:center;justify-content:center;background:var(--bg);border-radius:10px;text-align:center;color:var(--muted);width:100%;height:100%}
+.latestImage img,.mainArticleImage img,.contributionImage img,.relatedImage img{display:block;width:100%;height:100%;object-fit:cover}.imageFallback{font-size:12px;padding:8px}
+.latestThumb{min-height:130px}.latestThumb .latestImage{min-height:130px}.relatedRow{display:flex;align-items:flex-start;gap:12px}.relatedImage{flex:0 0 92px;width:92px;height:76px}.relatedText{min-width:0;flex:1}.relatedText p{margin:4px 0}
+.contributionHead{display:flex;gap:14px;align-items:flex-start}.contributionImage{flex:0 0 120px;width:120px;height:94px}.contributionText{min-width:0;flex:1}.contributionText h3{margin:8px 0}.contributionText p{margin:4px 0}
+.articleMainImage:empty{display:none}.articleMainImage:not(:empty){max-width:580px;margin:12px 0 18px}.mainArticleImage{height:250px}
+@media(max-width:600px){.latestThumb,.latestThumb .latestImage{min-height:98px}.relatedImage{flex-basis:70px;width:70px;height:65px}.contributionImage{flex-basis:88px;width:88px;height:76px}.mainArticleImage{height:190px}}
