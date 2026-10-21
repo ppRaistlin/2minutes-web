@@ -230,7 +230,7 @@ body{padding-bottom:0}
 
 /* V1.0.23 — détails contenus dans le même panneau que leur déclencheur */
 #recent{display:none!important}
-.latestPointsGroup{border:1px solid var(--border);border-radius:12px;background:var(--bg);overflow:hidden;min-width:0}
+.latestPointsGroup{border:0;border-radius:12px;background:var(--bg);overflow:hidden;min-width:0;box-shadow:none}
 .latestPointsGroup .latestExpand{border:0;border-radius:0;background:transparent;min-height:52px}
 .latestPointsGroup .latestExpand:focus-visible{outline-offset:-3px}
 .latestPointsGroup .latestLinked:not([hidden]){padding:0 12px 12px;border:0;background:transparent}
