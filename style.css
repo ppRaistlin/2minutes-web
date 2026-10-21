@@ -445,16 +445,13 @@ body[data-theme="dark"] .headtools .iconBtn.activePage{
   outline:none !important;
   box-shadow:none !important;
 }
-body:not([data-theme="dark"]) input,
-body:not([data-theme="dark"]) select,
-body:not([data-theme="dark"]) textarea{background:#324055 !important;color:#f2f6fb !important;}
-body:not([data-theme="dark"]) input::placeholder,
-body:not([data-theme="dark"]) textarea::placeholder{color:#d0d7e1 !important;opacity:1 !important;}
-body:not([data-theme="dark"]) #latestArticles .latestFilterButton,
-body:not([data-theme="dark"]) .latestExpand,
-body:not([data-theme="dark"]) .subtle,
-body:not([data-theme="dark"]) .back,
-body:not([data-theme="dark"]) .urlHelp>summary{background:#324055 !important;color:#f2f6fb !important;}
-body:not([data-theme="dark"]) #latestArticles .latestFilterButton svg{stroke:currentColor !important;}
-body:not([data-theme="dark"]) .headtools .iconBtn.activePage{background:#324055 !important;color:#fff !important;}
 button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.brandVideo:focus-visible,.kofiHeaderBtn:focus-visible,.urlHelp>summary:focus-visible,.latestExpand:focus-visible,#latestArticles .latestFilterButton:focus-visible{outline:none !important;box-shadow:none !important;border-color:transparent !important;}
+
+/* V1.0.35 — restore original field/button surfaces without bringing borders back. */
+body:not([data-theme="dark"]) input,body:not([data-theme="dark"]) select,body:not([data-theme="dark"]) textarea {background:var(--input-bg);color:var(--text)}
+body:not([data-theme="dark"]) input::placeholder,body:not([data-theme="dark"]) textarea::placeholder {color:var(--muted);opacity:.85}
+body:not([data-theme="dark"]) #latestArticles .latestFilterButton {background:var(--input-bg);color:var(--text)}
+body:not([data-theme="dark"]) .latestExpand {background:transparent;color:var(--blue)}
+body:not([data-theme="dark"]) .subtle,body:not([data-theme="dark"]) .back {background:transparent;color:var(--text)}
+body:not([data-theme="dark"]) .urlHelp>summary {background:var(--bg);color:var(--text)}
+body:not([data-theme="dark"]) .headtools .iconBtn.activePage {background:var(--hover-surface);color:var(--blue)}
