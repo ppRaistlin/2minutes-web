@@ -227,3 +227,13 @@ body{padding-bottom:0}
 .latestExpandIcon svg{display:block;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transition:transform .15s ease}
 .latestExpandIcon.isExpanded svg{transform:rotate(180deg)}
 @media(prefers-reduced-motion:reduce){.latestExpandIcon svg{transition:none}}
+
+/* V1.0.23 — détails contenus dans le même panneau que leur déclencheur */
+#recent{display:none!important}
+.latestPointsGroup{border:1px solid var(--border);border-radius:12px;background:var(--bg);overflow:hidden;min-width:0}
+.latestPointsGroup .latestExpand{border:0;border-radius:0;background:transparent;min-height:52px}
+.latestPointsGroup .latestExpand:focus-visible{outline-offset:-3px}
+.latestPointsGroup .latestLinked:not([hidden]){padding:0 12px 12px;border:0;background:transparent}
+.latestPointsGroup .latestRelations{margin:0}
+.latestPointsGroup .latestRelation{background:var(--surface)}
+@media(max-width:680px){.latestPointsGroup .latestLinked:not([hidden]){padding:0 8px 8px}}

@@ -42,7 +42,7 @@ if(!prefs.country||!countries.includes(prefs.country)&&prefs.country!=='all'){pr
 $('preferredCountry').value=prefs.country;
 $('mediaCountry').value=prefs.country;
 $('preferredCountry').onchange=()=>{prefs.country=$('preferredCountry').value;store('prefs',prefs);$('mediaCountry').value=prefs.country;mediaLimit=50;renderMedia()};
-function renderHistory(){let sec=$('recent'),out=$('recentList');sec.classList.toggle('hidden',!history.length);out.replaceChildren();history.forEach((h,i)=>{let r=node('div','mediaRow'),info=node('div','mediaInfo'),a=node('button','subtle',h.title||h.url);a.style.textAlign='left';a.onclick=()=>analyze(h.url,h.title);info.append(a,node('p','',h.domain+' · '+new Date(h.date).toLocaleDateString(prefs.lang||'fr')));let del=node('button','subtle','×');del.setAttribute('aria-label','Supprimer de l’historique');del.onclick=()=>{history.splice(i,1);store('history',history);renderHistory()};r.append(info,del);out.append(r)})}
+function renderHistory(){let sec=$('recent'),out=$('recentList');sec.classList.add('hidden');out.replaceChildren();history.forEach((h,i)=>{let r=node('div','mediaRow'),info=node('div','mediaInfo'),a=node('button','subtle',h.title||h.url);a.style.textAlign='left';a.onclick=()=>analyze(h.url,h.title);info.append(a,node('p','',h.domain+' · '+new Date(h.date).toLocaleDateString(prefs.lang||'fr')));let del=node('button','subtle','×');del.setAttribute('aria-label','Supprimer de l’historique');del.onclick=()=>{history.splice(i,1);store('history',history);renderHistory()};r.append(info,del);out.append(r)})}
 // Public latest articles: read-only RPC; never attempt direct access to revoked tables.
 let latestCursor=0,latestRows=[],latestQuery='',latestPending=0;
 async function fetchLatest(query){const cfg=globalThis.TWOMINUTES_COMMUNITY||{};if(!cfg.supabaseUrl||!cfg.supabaseAnonKey)throw Error('Connexion communautaire non configurée.');
@@ -90,6 +90,7 @@ function latestCard(item){
  intro.append(tit,sub,dated);head.append(visual,intro);card.append(head);
  const relations=Array.isArray(item.linked_articles)?item.linked_articles:[];
  if(relations.length){
+  const group=node('div','latestPointsGroup');
   const section=node('section','latestLinked');
   const expand=node('button','latestExpand');
   const expandLabel=node('span','latestExpandLabel');
@@ -108,7 +109,7 @@ function latestCard(item){
   expand.append(expandLabel,expandIcon);
   expand.onclick=()=>setExpanded(section.hidden);
   section.id=panelId;
-  section.append(node('h4','latestLinkedTitle','Autres points de vue ('+relations.length+')'));
+  
   const list=node('ul','latestRelations');
   for(const rel of relations){
    const li=node('li','latestRelation'),row=node('div','relatedRow'),information=node('div','relatedText');
@@ -121,7 +122,7 @@ function latestCard(item){
    }else information.append(node('span','latestNoExcerpt','Aucun passage sélectionné pour cet article lié.'));
    row.append(information);li.append(row);list.append(li);
   }
-  section.append(list);card.append(expand,section);setExpanded(!mobile);
+  section.append(list);group.append(expand,section);card.append(group);setExpanded(!mobile);
  }else card.append(node('p','muted small','Aucun article lié disponible.'));
  return card;
 }
