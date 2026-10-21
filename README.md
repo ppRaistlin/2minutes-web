@@ -1,3 +1,13 @@
+# 2minutes Web/PWA V1.0.19 — Images
+
+- Correctif de chargement : suppression du `referrerPolicy=no-referrer` forcé pour les photos des éditeurs ; chargement différé et décodage asynchrone conservés.
+- Distinction claire entre « Aucune photo enregistrée » (URL absente en base) et « Image inaccessible » (URL présente, mais téléchargement échoué).
+- Correction de la construction du lien autour de la photo principale des cartes.
+- `diagnostic-photos-lecture-seule.sql` : requêtes à exécuter manuellement dans Supabase pour comprendre pourquoi certaines photos restent absentes.
+- Aucune donnée ni permission Supabase modifiée.
+- Prérequis pour afficher les photos : migrations V2.1.37 et V2.1.42 de l’extension + RPC `list_recent_articles_public_v2` (fourni dans `supabase-web-article-images-readonly-v2.sql`).
+- **Important** : les anciens articles enregistrés sans `image_url` ne peuvent pas être réparés par une simple mise à jour du site ; il faut disposer d’une vraie URL d’image enregistrée dans Supabase.
+
 # 2minutes Web/PWA v1.0.17
 
 ## V1.0.13

@@ -64,8 +64,14 @@ function validArticleImage(raw,articleUrl){
 }
 function appendArticleImage(target,raw,articleUrl,cssClass='articleImage'){
  const wrapper=node('div',cssClass),url=validArticleImage(raw,articleUrl);
- const fallback=node('span','imageFallback','Photo non disponible');wrapper.append(fallback);
- if(url){const img=document.createElement('img');img.src=url;img.alt='Illustration de l’article';img.loading='lazy';img.referrerPolicy='no-referrer';img.onerror=()=>{img.remove();fallback.hidden=false};img.onload=()=>{fallback.hidden=true};wrapper.append(img)}
+ const fallback=node('span','imageFallback',url?'Image indisponible':'Aucune photo enregistrée');wrapper.append(fallback);
+ if(url){
+   const img=document.createElement('img');img.alt='Illustration de l’article';img.loading='lazy';img.decoding='async';
+   // Ne pas imposer referrerPolicy=no-referrer : certains éditeurs bloquent les images sans Referer.
+   img.addEventListener('load',()=>{fallback.hidden=true;wrapper.classList.add('imageLoaded')});
+   img.addEventListener('error',()=>{img.remove();fallback.hidden=false;fallback.textContent='Image inaccessible';wrapper.classList.add('imageError')});
+   wrapper.append(img);img.src=url;
+ }
  target.append(wrapper);return wrapper;
 }
 function trustedArticleLink(a,url){try{let u=new URL(url);if(!['http:','https:'].includes(u.protocol))throw Error();a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';return true}catch{a.removeAttribute('href');return false}}
@@ -73,8 +79,8 @@ function publicBias(domainName){const b=biasOf(domainName);return b?labelFor(b.s
 function latestCard(item){
  const card=node('article','latestCard'),body=node('div','latestBody'),tit=node('h3','latestTitle');
  const visual=node('div','latestThumb');
- const image=appendArticleImage(visual,item.image_url,item.url,'latestImage');
- if(validArticleImage(item.image_url,item.url)){const imgLink=node('a','latestImageLink');if(trustedArticleLink(imgLink,item.url)){imgLink.append(image);visual.append(imgLink)}}
+ const imageUrl=validArticleImage(item.image_url,item.url);
+ if(imageUrl){const imgLink=node('a','latestImageLink');if(trustedArticleLink(imgLink,item.url)){appendArticleImage(imgLink,imageUrl,item.url,'latestImage');visual.append(imgLink)}else appendArticleImage(visual,imageUrl,item.url,'latestImage')}else appendArticleImage(visual,null,item.url,'latestImage');
  const link=node('a','',item.title||'Article sans titre');trustedArticleLink(link,item.url);tit.append(link);
  const sourceDomain=item.domain||domain(item.url);
  const sub=node('p','latestDetails',sourceDomain+' · '+publicBias(sourceDomain)+' · Dernière contribution : '+(item.last_linked_at?new Date(item.last_linked_at).toLocaleDateString(prefs.lang||'fr'):'date inconnue'));
