@@ -92,6 +92,22 @@ function latestCard(item){
  const relations=Array.isArray(item.linked_articles)?item.linked_articles:[];
  if(relations.length){
   const section=node('section','latestLinked');
+  const expand=node('button','latestExpand');
+  const expandLabel=node('span','latestExpandLabel');
+  const expandIcon=node('span','latestExpandIcon','⌄');
+  const panelId='linked-'+Math.random().toString(36).slice(2);
+  const mobile=window.matchMedia('(max-width:680px)').matches;
+  const setExpanded=expanded=>{
+    section.hidden=!expanded;
+    expand.setAttribute('aria-expanded',String(expanded));
+    expandLabel.textContent=expanded?'Masquer les '+relations.length+' article'+(relations.length>1?'s':'')+' lié'+(relations.length>1?'s':''):'Voir les '+relations.length+' article'+(relations.length>1?'s':'')+' lié'+(relations.length>1?'s':'');
+    expandIcon.textContent=expanded?'⌃':'⌄';
+  };
+  expand.type='button';expand.setAttribute('aria-controls',panelId);
+  expand.setAttribute('aria-label','Afficher ou masquer les articles liés');
+  expand.append(expandLabel,expandIcon);
+  expand.onclick=()=>setExpanded(section.hidden);
+  section.id=panelId;
   section.append(node('h4','latestLinkedTitle','Articles liés ('+relations.length+')'));
   const list=node('ul','latestRelations');
   for(const rel of relations){
@@ -105,7 +121,7 @@ function latestCard(item){
    }else information.append(node('span','latestNoExcerpt','Aucun passage sélectionné pour cet article lié.'));
    row.append(information);li.append(row);list.append(li);
   }
-  section.append(list);card.append(section);
+  section.append(list);card.append(expand,section);setExpanded(!mobile);
  }else card.append(node('p','muted small','Aucun article lié disponible.'));
  return card;
 }

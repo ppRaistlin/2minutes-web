@@ -187,3 +187,37 @@ body{padding-bottom:0}
  .relatedImage{width:72px;height:64px;flex-basis:72px}
  .relatedRow{gap:9px}
 }
+
+/* V1.0.21 — option D : photographies paysage et détails dépliables */
+.latestCard{min-width:0;overflow:hidden}
+.latestExpand{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:46px;width:100%;border:1px solid var(--border);border-radius:12px;background:var(--bg);color:var(--text);padding:10px 14px;font-weight:700;text-align:left}
+.latestExpand:hover{border-color:var(--blue)}
+.latestExpandIcon{font-size:23px;line-height:1;flex:0 0 auto}
+.latestLinked[hidden]{display:none!important}
+.latestLinked{border-top:0;padding-top:0}
+.latestCardHeader{min-width:0}
+.latestThumb{overflow:hidden;border-radius:12px}
+.latestThumb .latestImage{overflow:hidden}
+.latestImageLink{min-width:0}
+.latestIntro{overflow-wrap:anywhere}
+.relatedText{overflow-wrap:anywhere}
+@media(max-width:680px){
+ .latestArticles{width:100%;min-width:0}
+ .latestCard{width:100%;max-width:100%;padding:12px}
+ .latestCardHeader{display:flex;flex-direction:column;gap:12px}
+ .latestThumb{width:100%;height:auto;aspect-ratio:16/9;flex:0 0 auto}
+ .latestThumb .latestImage{width:100%;height:100%;min-height:0;aspect-ratio:16/9}
+ .latestThumb img{width:100%;height:100%;object-fit:cover;object-position:center}
+ .latestIntro{width:100%}
+ .latestOpen{margin-top:5px}
+ .latestLinkedTitle{font-size:13px}
+ .latestRelation{padding:10px}
+ .relatedRow{display:flex;gap:10px}
+ .relatedImage{flex:0 0 78px;width:78px;height:70px;aspect-ratio:auto}
+ .relatedTitle{font-size:14px;line-height:1.35}
+ .latestExcerpt{display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;white-space:normal;overflow-wrap:anywhere}
+}
+@media(max-width:360px){
+ .relatedImage{flex-basis:64px;width:64px;height:62px}
+ .latestTitle{font-size:16px}
+}
