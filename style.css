@@ -344,18 +344,18 @@ body{padding-bottom:0}
    Les couleurs des orientations éditoriales ne sont jamais modifiées. */
 :root {
   color-scheme: light;
-  --bg: #f2f5f9;
+  --bg: #e9eef4;
   --surface: #ffffff;
   --text: #1b2c43;
   --muted: #53677f;
   --border: #d8e2ee;
   --blue: #245db7;
   --shadow: 0 3px 14px #1935530d;
-  --header: #dfe6ef;
+  --header: #cfd7e2;
   --header-text: #193453;
   --header-sub: #4d6886;
   --input-bg: #ffffff;
-  --hover-surface: #e7edf6;
+  --hover-surface: #dde5f0;
 }
 body[data-theme="dark"] {
   color-scheme: dark;
@@ -415,3 +415,46 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,.b
 .latestExpand:hover,.latestExpand:focus-visible{border-color:var(--border) !important;box-shadow:none !important;}
 .comicThumb.active{border-color:var(--border) !important;box-shadow:none !important;}
 @media (prefers-color-scheme: light){header{background:var(--header);} }
+
+
+/* V1.0.34 — fond clair plus sombre + suppression visible des contours de contrôles */
+:root{--control-bg-light:#2a3546;--control-border-light:transparent;}
+body:not([data-theme="dark"]) input,
+body:not([data-theme="dark"]) select,
+body:not([data-theme="dark"]) textarea,
+body:not([data-theme="dark"]) .subtle,
+body:not([data-theme="dark"]) .back,
+body:not([data-theme="dark"]) #latestArticles .latestFilterButton,
+body:not([data-theme="dark"]) .latestExpand,
+body:not([data-theme="dark"]) .urlHelp>summary,
+body:not([data-theme="dark"]) .headtools .iconBtn.activePage{
+  border:0 !important;
+  outline:none !important;
+  box-shadow:none !important;
+}
+body[data-theme="dark"] input,
+body[data-theme="dark"] select,
+body[data-theme="dark"] textarea,
+body[data-theme="dark"] .subtle,
+body[data-theme="dark"] .back,
+body[data-theme="dark"] #latestArticles .latestFilterButton,
+body[data-theme="dark"] .latestExpand,
+body[data-theme="dark"] .urlHelp>summary,
+body[data-theme="dark"] .headtools .iconBtn.activePage{
+  border:0 !important;
+  outline:none !important;
+  box-shadow:none !important;
+}
+body:not([data-theme="dark"]) input,
+body:not([data-theme="dark"]) select,
+body:not([data-theme="dark"]) textarea{background:#324055 !important;color:#f2f6fb !important;}
+body:not([data-theme="dark"]) input::placeholder,
+body:not([data-theme="dark"]) textarea::placeholder{color:#d0d7e1 !important;opacity:1 !important;}
+body:not([data-theme="dark"]) #latestArticles .latestFilterButton,
+body:not([data-theme="dark"]) .latestExpand,
+body:not([data-theme="dark"]) .subtle,
+body:not([data-theme="dark"]) .back,
+body:not([data-theme="dark"]) .urlHelp>summary{background:#324055 !important;color:#f2f6fb !important;}
+body:not([data-theme="dark"]) #latestArticles .latestFilterButton svg{stroke:currentColor !important;}
+body:not([data-theme="dark"]) .headtools .iconBtn.activePage{background:#324055 !important;color:#fff !important;}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,.brandVideo:focus-visible,.kofiHeaderBtn:focus-visible,.urlHelp>summary:focus-visible,.latestExpand:focus-visible,#latestArticles .latestFilterButton:focus-visible{outline:none !important;box-shadow:none !important;border-color:transparent !important;}
