@@ -1,4 +1,4 @@
-# 2minutes Web/PWA V1.0.21 — Articles et images
+# 2minutes Web/PWA V1.0.22 — Articles et images
 
 - Correctif de chargement : suppression du `referrerPolicy=no-referrer` forcé pour les photos des éditeurs ; chargement différé et décodage asynchrone conservés.
 - Distinction claire entre « Aucune photo enregistrée » (URL absente en base) et « Image inaccessible » (URL présente, mais téléchargement échoué).
@@ -111,7 +111,7 @@ V1.0.5: Video loops; logo left and slogan/tagline in header; top and bottom navi
 - Vérifications locales : syntaxe JavaScript, présence des six JPG de l'utilisateur, intégrité ZIP. Tests Supabase réels non exécutés ; migration non appliquée.
 
 
-## V1.0.21 — mise en page des derniers articles
+## V1.0.22 — mise en page des derniers articles
 
 - Cartes restructurées : en-tête compact, photo principale paysage, titre et métadonnées.
 - Articles liés dans une section distincte sur toute la largeur avec miniatures, extraits et votes.
@@ -119,6 +119,12 @@ V1.0.5: Video loops; logo left and slogan/tagline in header; top and bottom navi
 - Aucun changement des fonctions SQL, des données Supabase, des six BD ni de la navigation.
 
 
-## V1.0.21 — Option D
+## V1.0.22 — Option D
 
 Cartes avec image paysage et bouton permettant de déplier les articles liés. Les détails sont fermés par défaut sur mobile (≤680 px) et visibles par défaut sur ordinateur. L’interface conserve les titres, photos, orientations, extraits, votes, recherche et Supabase en lecture seule.
+
+## V1.0.22
+
+- Chevron centré avec SVG.
+- Libellé « Voir X autres points de vue » et « Masquer X autres points de vue ».
+- Suppression du bouton « Voir dans 2minutes » des cartes récentes.

@@ -87,28 +87,28 @@ function latestCard(item){
  const sourceDomain=item.domain||domain(item.url);
  const sub=node('p','latestDetails',sourceDomain+' · '+publicBias(sourceDomain));
  const dated=node('p','latestDate','Dernière contribution : '+(item.last_linked_at?new Date(item.last_linked_at).toLocaleDateString(prefs.lang||'fr'):'date inconnue'));
- const open=node('button','subtle latestOpen','Voir dans 2minutes');open.type='button';open.onclick=()=>analyze(item.url,item.title||'');
- intro.append(tit,sub,dated,open);head.append(visual,intro);card.append(head);
+ intro.append(tit,sub,dated);head.append(visual,intro);card.append(head);
  const relations=Array.isArray(item.linked_articles)?item.linked_articles:[];
  if(relations.length){
   const section=node('section','latestLinked');
   const expand=node('button','latestExpand');
   const expandLabel=node('span','latestExpandLabel');
-  const expandIcon=node('span','latestExpandIcon','⌄');
+  const expandIcon=node('span','latestExpandIcon');
+  expandIcon.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
   const panelId='linked-'+Math.random().toString(36).slice(2);
   const mobile=window.matchMedia('(max-width:680px)').matches;
   const setExpanded=expanded=>{
     section.hidden=!expanded;
     expand.setAttribute('aria-expanded',String(expanded));
-    expandLabel.textContent=expanded?'Masquer les '+relations.length+' article'+(relations.length>1?'s':'')+' lié'+(relations.length>1?'s':''):'Voir les '+relations.length+' article'+(relations.length>1?'s':'')+' lié'+(relations.length>1?'s':'');
-    expandIcon.textContent=expanded?'⌃':'⌄';
+    expandLabel.textContent=(expanded?'Masquer':'Voir')+' '+relations.length+' autre'+(relations.length>1?'s':'')+' point'+(relations.length>1?'s':'')+' de vue';
+    expandIcon.classList.toggle('isExpanded',expanded);
   };
   expand.type='button';expand.setAttribute('aria-controls',panelId);
-  expand.setAttribute('aria-label','Afficher ou masquer les articles liés');
+  expand.setAttribute('aria-label','Afficher ou masquer les autres points de vue');
   expand.append(expandLabel,expandIcon);
   expand.onclick=()=>setExpanded(section.hidden);
   section.id=panelId;
-  section.append(node('h4','latestLinkedTitle','Articles liés ('+relations.length+')'));
+  section.append(node('h4','latestLinkedTitle','Autres points de vue ('+relations.length+')'));
   const list=node('ul','latestRelations');
   for(const rel of relations){
    const li=node('li','latestRelation'),row=node('div','relatedRow'),information=node('div','relatedText');
