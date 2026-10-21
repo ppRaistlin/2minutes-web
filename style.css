@@ -308,3 +308,24 @@ body{padding-bottom:0}
   #latestArticles .latestThumb{width:84px;height:78px}
   #latestArticles .relatedImage{width:60px;height:56px;flex-basis:60px}
 }
+
+/* V1.0.26 — filtres et carrousel horizontal des points de vue */
+#latestArticles .latestSearchRow{display:flex;gap:10px;align-items:stretch;min-width:0}
+#latestArticles .latestSearchRow input{min-width:0;flex:1}
+#latestArticles .latestFilterButton{width:48px;min-width:48px;min-height:48px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:11px;background:var(--surface);color:var(--text);cursor:pointer;position:relative}
+#latestArticles .latestFilterButton svg{width:23px;height:23px;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;fill:none}
+#latestArticles .latestFilterButton:is(:hover,.active){border-color:var(--blue);color:var(--blue)}
+#latestArticles .latestFilterButton.hasFilters:after{content:'';position:absolute;right:5px;top:5px;width:7px;height:7px;border-radius:50%;background:var(--blue)}
+#latestArticles .latestFilterPanel{margin-top:10px;padding:16px 0 10px;border-bottom:1px solid var(--border)}
+#latestArticles .latestFilterHead{display:flex;justify-content:space-between;align-items:center;gap:12px}
+#latestArticles .latestFilterGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px;margin-top:10px}
+#latestArticles .latestFilterGrid label{font-size:13px;font-weight:600;margin:6px 0}
+#latestArticles .latestFilterGrid select{width:100%;min-width:0}
+#latestArticles .latestRelationsScrollable{display:flex!important;gap:16px;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x mandatory;scroll-padding:0 12px;padding:0 4px 10px 0!important;scrollbar-width:thin}
+#latestArticles .latestRelationsScrollable>.latestRelation{box-sizing:border-box;flex:0 0 min(85%,530px);min-width:0;border:0!important;border-left:1px solid var(--border)!important;padding:2px 12px!important;scroll-snap-align:start}
+#latestArticles .latestRelationsScrollable>.latestRelation:first-child{border-left:0!important;padding-left:0!important}
+@media(max-width:680px){
+ #latestArticles .latestFilterGrid{grid-template-columns:1fr}
+ #latestArticles .latestFilterPanel{padding-top:10px}
+ #latestArticles .latestRelationsScrollable>.latestRelation{flex-basis:86%;padding-right:9px!important}
+}
