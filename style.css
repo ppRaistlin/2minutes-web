@@ -145,3 +145,45 @@ body{padding-bottom:0}
 .contributionHead{display:flex;gap:14px;align-items:flex-start}.contributionImage{flex:0 0 120px;width:120px;height:94px}.contributionText{min-width:0;flex:1}.contributionText h3{margin:8px 0}.contributionText p{margin:4px 0}
 .articleMainImage:empty{display:none}.articleMainImage:not(:empty){max-width:580px;margin:12px 0 18px}.mainArticleImage{height:250px}
 @media(max-width:600px){.latestThumb,.latestThumb .latestImage{min-height:98px}.relatedImage{flex-basis:70px;width:70px;height:65px}.contributionImage{flex-basis:88px;width:88px;height:76px}.mainArticleImage{height:190px}}
+
+/* V1.0.20 — cartes d'articles compactes, photographies paysage et lecture mobile */
+.latestArticles{max-width:1000px}
+.latestList{gap:16px}
+.latestCard{display:flex;flex-direction:column;gap:14px;padding:16px;border-radius:16px}
+.latestCardHeader{display:grid;grid-template-columns:235px minmax(0,1fr);gap:18px;align-items:start}
+.latestThumb,.latestThumb .latestImage{width:100%;height:148px;min-height:0;aspect-ratio:16/10}
+.latestImageLink{width:100%;height:100%;display:block}
+.latestThumb img{width:100%;height:100%;object-fit:cover}
+.latestIntro{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:5px}
+.latestTitle{font-size:clamp(17px,2vw,21px);line-height:1.3;margin:0 0 3px}
+.latestTitle a{text-decoration:none}
+.latestTitle a:hover,.relatedTitle:hover{text-decoration:underline}
+.latestDetails{line-height:1.35;margin:0;color:var(--muted)}
+.latestDate{margin:2px 0 5px;font-size:12px;color:var(--muted)}
+.latestOpen{margin-top:auto;min-height:38px;font-size:13px}
+.latestLinked{min-width:0;border-top:1px solid var(--border);padding-top:12px}
+.latestLinkedTitle{margin:0 0 9px;font-size:14px;font-weight:700;color:var(--text)}
+.latestRelations{margin:0;padding:0;gap:9px}
+.latestRelation{border:1px solid var(--border);border-radius:12px;padding:12px;background:var(--bg)}
+.relatedRow{gap:13px;align-items:start}
+.relatedImage{width:112px;height:78px;flex:0 0 112px;aspect-ratio: 10/7}
+.relatedText{min-width:0}
+.relatedTitle{font-size:15px;line-height:1.35;font-weight:650;text-decoration:none;display:block}
+.relatedText .latestDetails{font-size:12px;margin:5px 0}
+.latestExcerpt{font-size:13px;line-height:1.5;margin-top:7px}
+.latestVotes{margin-top:8px}
+@media(max-width:680px){
+ .latestCard{padding:12px;gap:12px}
+ .latestCardHeader{grid-template-columns:1fr;gap:12px}
+ .latestThumb,.latestThumb .latestImage{height:auto;min-height:0;aspect-ratio:16/9}
+ .latestIntro{gap:5px}
+ .latestTitle{font-size:17px}
+ .latestLinked{padding-top:10px}
+ .latestRelation{padding:10px}
+ .relatedImage{flex:0 0 86px;width:86px;height:74px}
+ .relatedTitle{font-size:14px}
+}
+@media(max-width:380px){
+ .relatedImage{width:72px;height:64px;flex-basis:72px}
+ .relatedRow{gap:9px}
+}

@@ -109,3 +109,11 @@ V1.0.5: Video loops; logo left and slogan/tagline in header; top and bottom navi
 - Sur GitHub Pages, les images externes peuvent ne pas s'afficher lorsque le serveur distant bloque l'intégration ; un emplacement neutre apparaît.
 - La fonction SQL ne lit que les articles présents dans les liens communautaires ; aucun historique privé n'est exposé.
 - Vérifications locales : syntaxe JavaScript, présence des six JPG de l'utilisateur, intégrité ZIP. Tests Supabase réels non exécutés ; migration non appliquée.
+
+
+## V1.0.20 — mise en page des derniers articles
+
+- Cartes restructurées : en-tête compact, photo principale paysage, titre et métadonnées.
+- Articles liés dans une section distincte sur toute la largeur avec miniatures, extraits et votes.
+- Présentation mobile en colonne, image 16:9 et textes lisibles.
+- Aucun changement des fonctions SQL, des données Supabase, des six BD ni de la navigation.

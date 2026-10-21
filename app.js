@@ -77,27 +77,38 @@ function appendArticleImage(target,raw,articleUrl,cssClass='articleImage'){
 function trustedArticleLink(a,url){try{let u=new URL(url);if(!['http:','https:'].includes(u.protocol))throw Error();a.href=u.href;a.target='_blank';a.rel='noopener noreferrer';return true}catch{a.removeAttribute('href');return false}}
 function publicBias(domainName){const b=biasOf(domainName);return b?labelFor(b.score):'Orientation non déterminée'}
 function latestCard(item){
- const card=node('article','latestCard'),body=node('div','latestBody'),tit=node('h3','latestTitle');
- const visual=node('div','latestThumb');
+ const card=node('article','latestCard'),head=node('div','latestCardHeader');
+ const visual=node('div','latestThumb'),intro=node('div','latestIntro');
  const imageUrl=validArticleImage(item.image_url,item.url);
- if(imageUrl){const imgLink=node('a','latestImageLink');if(trustedArticleLink(imgLink,item.url)){appendArticleImage(imgLink,imageUrl,item.url,'latestImage');visual.append(imgLink)}else appendArticleImage(visual,imageUrl,item.url,'latestImage')}else appendArticleImage(visual,null,item.url,'latestImage');
- const link=node('a','',item.title||'Article sans titre');trustedArticleLink(link,item.url);tit.append(link);
+ if(imageUrl){const imgLink=node('a','latestImageLink');if(trustedArticleLink(imgLink,item.url)){appendArticleImage(imgLink,imageUrl,item.url,'latestImage');visual.append(imgLink)}else appendArticleImage(visual,imageUrl,item.url,'latestImage')}
+ else appendArticleImage(visual,null,item.url,'latestImage');
+ const tit=node('h3','latestTitle'),link=node('a','',item.title||'Article sans titre');
+ trustedArticleLink(link,item.url);tit.append(link);
  const sourceDomain=item.domain||domain(item.url);
- const sub=node('p','latestDetails',sourceDomain+' · '+publicBias(sourceDomain)+' · Dernière contribution : '+(item.last_linked_at?new Date(item.last_linked_at).toLocaleDateString(prefs.lang||'fr'):'date inconnue'));
- body.append(tit,sub);
+ const sub=node('p','latestDetails',sourceDomain+' · '+publicBias(sourceDomain));
+ const dated=node('p','latestDate','Dernière contribution : '+(item.last_linked_at?new Date(item.last_linked_at).toLocaleDateString(prefs.lang||'fr'):'date inconnue'));
+ const open=node('button','subtle latestOpen','Voir dans 2minutes');open.type='button';open.onclick=()=>analyze(item.url,item.title||'');
+ intro.append(tit,sub,dated,open);head.append(visual,intro);card.append(head);
  const relations=Array.isArray(item.linked_articles)?item.linked_articles:[];
- if(relations.length){body.append(node('strong','small','Articles liés'));const list=node('ul','latestRelations');
-  for(const rel of relations){const li=node('li','latestRelation'),row=node('div','relatedRow'),information=node('div','relatedText');
-   appendArticleImage(row,rel.image_url,rel.url,'relatedImage');const a=node('a','',rel.title||rel.domain||'Article lié');trustedArticleLink(a,rel.url);information.append(a);
+ if(relations.length){
+  const section=node('section','latestLinked');
+  section.append(node('h4','latestLinkedTitle','Articles liés ('+relations.length+')'));
+  const list=node('ul','latestRelations');
+  for(const rel of relations){
+   const li=node('li','latestRelation'),row=node('div','relatedRow'),information=node('div','relatedText');
+   appendArticleImage(row,rel.image_url,rel.url,'relatedImage');
+   const a=node('a','relatedTitle',rel.title||rel.domain||'Article lié');trustedArticleLink(a,rel.url);information.append(a);
    const relatedDomain=rel.domain||domain(rel.url);information.append(node('p','latestDetails',relatedDomain+' · '+publicBias(relatedDomain)));
-   if(rel.excerpt){information.append(node('span','latestExcerpt','« '+rel.excerpt+' »'));information.append(node('div','latestVotes','↑ '+Number(rel.upvotes||0)+' pertinents · ↓ '+Number(rel.downvotes||0)+' hors sujet'))}
-   else information.append(node('span','latestNoExcerpt','Aucun passage sélectionné pour cet article lié.'));
-   row.append(information);li.append(row);list.append(li)
-  }body.append(list)
- }else body.append(node('p','muted small','Aucun article lié disponible.'));
- const actions=node('div','latestArticleActions'),open=node('button','subtle','Voir dans 2minutes');open.type='button';open.onclick=()=>analyze(item.url,item.title||'');actions.append(open);body.append(actions);card.append(visual,body);return card
+   if(rel.excerpt){
+    information.append(node('span','latestExcerpt','« '+rel.excerpt+' »'));
+    information.append(node('div','latestVotes','↑ '+Number(rel.upvotes||0)+' pertinents · ↓ '+Number(rel.downvotes||0)+' hors sujet'));
+   }else information.append(node('span','latestNoExcerpt','Aucun passage sélectionné pour cet article lié.'));
+   row.append(information);li.append(row);list.append(li);
+  }
+  section.append(list);card.append(section);
+ }else card.append(node('p','muted small','Aucun article lié disponible.'));
+ return card;
 }
-
 function renderLatest(){const out=$('latestList');out.replaceChildren(...latestRows.slice(0,latestCursor).map(latestCard));$('latestMore').classList.toggle('hidden',latestRows.length<=latestCursor);if(!latestRows.length)$('latestStatus').textContent='Aucun article correspondant dans les contributions publiques.';else $('latestStatus').textContent=latestRows.length+' article(s) trouvé(s) · les passages affichés sont les plus plébiscités parmi ceux disponibles.'}
 async function loadLatest(query=''){const request=++latestPending;latestQuery=query;$('latestStatus').textContent='Chargement…';$('latestList').replaceChildren();$('latestMore').classList.add('hidden');try{const rows=await fetchLatest(query);if(request!==latestPending)return;latestRows=rows;latestCursor=Math.min(10,rows.length);renderLatest()}catch(error){if(request!==latestPending)return;latestRows=[];latestCursor=0;$('latestStatus').textContent=error.message}}
 let latestDebounce; $('latestSearch').addEventListener('input',()=>{clearTimeout(latestDebounce);latestDebounce=setTimeout(()=>loadLatest($('latestSearch').value.trim()),350)});$('latestMore').onclick=()=>{latestCursor=Math.min(latestCursor+10,latestRows.length);renderLatest()};
