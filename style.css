@@ -598,3 +598,10 @@ body[data-theme="dark"] .editorialMessage.ok{color:#9be8b7}
 #latestArticles .latestRelationsScrollable .relatedTitle{display:block;overflow-wrap:anywhere;white-space:normal}
 #latestArticles .latestRelationsScrollable .latestExcerpt{white-space:pre-wrap;overflow-wrap:anywhere}
 @media(max-width:680px){#latestArticles .latestRelationsScrollable>.latestRelation{flex-basis:94%!important;padding-right:12px!important}}
+
+/* V1.0.48 — navigation visible du carrousel des points de vue */
+#latestArticles .latestCarouselNav{display:flex;justify-content:center;align-items:center;gap:15px;padding:9px 0 3px}
+#latestArticles .latestCarouselArrow{display:inline-flex;align-items:center;justify-content:center;width:42px;height:36px;border:1px solid var(--border);border-radius:9px;background:var(--surface);color:var(--blue);font-size:22px;font-weight:700}
+#latestArticles .latestCarouselArrow:disabled{opacity:.32;cursor:default}
+#latestArticles .latestCarouselPosition{font-size:13px;font-weight:700;color:var(--muted);min-width:44px;text-align:center}
+#latestArticles .latestRelationsScrollable{scroll-behavior:smooth}

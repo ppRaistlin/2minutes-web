@@ -209,7 +209,26 @@ function latestCard(item){
    // La présence d'un seul passage reste parfaitement valide.
    row.append(information);li.append(row);list.append(li);
   }
-  section.append(list);group.append(expand,section);card.append(group);setExpanded(false);
+  if(relations.length>1){
+   const nav=node('div','latestCarouselNav');
+   const previous=node('button','latestCarouselArrow','←');
+   const indicator=node('span','latestCarouselPosition');
+   const next=node('button','latestCarouselArrow','→');
+   previous.type=next.type='button';
+   previous.setAttribute('aria-label','Point de vue précédent');
+   next.setAttribute('aria-label','Point de vue suivant');
+   const cards=[...list.children];
+   const selectedIndex=()=>{const x=list.scrollLeft;return cards.reduce((best,card,i)=>Math.abs(card.offsetLeft-list.offsetLeft-x)<Math.abs(cards[best].offsetLeft-list.offsetLeft-x)?i:best,0)};
+   const update=()=>{const index=selectedIndex();indicator.textContent=(index+1)+' / '+cards.length;previous.disabled=index===0;next.disabled=index===cards.length-1};
+   const move=direction=>{const index=Math.max(0,Math.min(cards.length-1,selectedIndex()+direction));list.scrollTo({left:cards[index].offsetLeft-cards[0].offsetLeft,behavior:'smooth'});};
+   previous.onclick=()=>move(-1);next.onclick=()=>move(1);
+   list.addEventListener('scroll',update,{passive:true});
+   nav.append(previous,indicator,next);
+   section.append(list,nav);
+   // L'initialisation après insertion tient compte des dimensions réelles.
+   requestAnimationFrame(update);
+  }else section.append(list);
+  group.append(expand,section);card.append(group);setExpanded(false);
  }else if(!(Array.isArray(item.linked_articles)&&item.linked_articles.length))card.append(node('p','muted small','Aucun article lié disponible.'));
  return card;
 }
