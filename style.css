@@ -571,3 +571,21 @@ body[data-theme="dark"] .editorialMessage.ok{color:#9be8b7}
 .editorialReport p{margin:7px 0;font-size:13px}
 #editorialImport:disabled,.editorialAuthForm button:disabled{opacity:.5;cursor:not-allowed}
 @media(max-width:680px){.editorialAccess{margin:18px 0;padding:15px;border-radius:14px}.editorialAuthForm{grid-template-columns:1fr;gap:8px}.editorialPair{padding:12px}.editorialAccessHead h2{font-size:19px}}
+
+/* V1.0.44 — dépôt .2min accessible sur l'accueil */
+.editorialHomeCard{margin:10px auto 22px;max-width:1000px;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:22px;box-shadow:var(--shadow)}
+.editorialHomeTop{display:flex;justify-content:space-between;align-items:center;gap:20px}
+.editorialHomeCard h2{font-size:clamp(20px,2.2vw,26px);margin:0 0 8px}
+.editorialHomeCard p{margin:4px 0 0;color:var(--muted);line-height:1.5}
+.editorialOpenButton{flex-shrink:0;min-width:235px;gap:9px}
+.editorialOpenButton span{font-size:23px;line-height:1}
+.editorialUploadFlow{border-top:1px solid var(--border);margin-top:18px;padding-top:14px}
+.editorialUploadFlow input[type=file]{padding:12px;background:var(--input-bg,var(--surface))}
+.editorialUploadFlow .editorialPreviewPanel{margin-top:16px}
+.editorialHomeCard .editorialMessage{min-height:20px}
+#editorialReview .editorialAuthForm{margin-top:14px}
+#editorialReview .editorialQueueItem{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:13px;margin:12px 0}
+#editorialReview .editorialQueueItem h4{margin:4px 0 8px}
+.editorialQueueActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.editorialQueueActions button{width:auto}
+@media(max-width:680px){.editorialHomeCard{padding:16px;margin:8px 0 18px}.editorialHomeTop{align-items:stretch;flex-direction:column}.editorialOpenButton{width:100%;min-width:0}.editorialHomeCard h2{font-size:21px}}

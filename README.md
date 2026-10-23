@@ -1,4 +1,4 @@
-# 2Minutes Web/PWA v1.0.43 — Importation rédactionnelle .2min
+# 2Minutes Web/PWA v1.0.44 — Importation rédactionnelle .2min
 
 - Nouvelle rubrique **Importation rédactionnelle** dans Paramètres avec authentification Supabase Auth et vérification serveur des droits.
 - Import du format JSON `.2min` `0.1-draft`, aperçu des paires acceptées, auteurs, affirmations, passages et preuves, confirmation humaine explicite.
@@ -6,7 +6,7 @@
 - Conservation des explications et preuves dans `tm_editorial_analyses` (accès direct fermé), marquage **« Sélectionné par la rédaction 2minutes »** dans les cartes où la fonction V4 fournit `origin`.
 - Fonctions de lecture V4 avec repli sur V3/V2 pour préserver les déploiements précédents.
 - Versions et cache PWA mis à jour ; favoris, BD, vidéos et filtres conservés.
-- **À lire avant déploiement :** `IMPORT_2MIN_INSTALL.md`, `TESTS_V1.0.43.md` et `supabase-import-editorial-2min-v1.sql`.
+- **À lire avant déploiement :** `IMPORT_2MIN_INSTALL.md`, `TESTS_V1.0.44.md` et `supabase-import-editorial-2min-v1.sql`.
 - Aucune migration exécutée automatiquement. Les tests SQL réels restent à faire avant mise en production.
 
 ---
@@ -241,3 +241,11 @@ Rétablissement des fonds d’origine des champs et boutons (avant V1.0.34), san
 - Échelles éditoriales visuelles dans toutes les listes de médias et favoris, sans badges textuels.
 - Accueil : sélecteur « Voir mes favoris / Tout voir », mémorisé localement. « Tout voir » place les articles des médias favoris en premier, en préservant leur ordre récent au sein de chaque groupe.
 - Filtrage et recherche existants conservés.
+
+## V1.0.44 — dépôt libre / revue avant publication
+
+- Bouton d'import `.2min` bien visible sur l'accueil ; aucune authentification requise pour déposer.
+- Validation locale et prévisualisation des affirmations, de leurs auteurs et des liens de preuve.
+- Chiffrement hybride RSA-OAEP 3072 / AES-GCM 256 avant envoi à Supabase Edge Functions ; la clé privée **n'est pas** livrée dans le ZIP GitHub Pages.
+- Dépôt en attente, dédoublonné et limité en fréquence ; revue puis approbation via un compte rédactionnel autorisé dans les paramètres.
+- Conserve la migration éditoriale V1.0.43 comme prérequis. Voir `INSTALLATION_IMPORT_2MIN_V1.0.44.md` et `TESTS_V1.0.44.md`.

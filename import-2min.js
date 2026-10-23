@@ -1,48 +1,19 @@
-/* 2Minutes integrated editorial importer. Client-side validation + server-side authorization.
-   All write operations go through the SECURITY DEFINER RPC; no admin keys or direct table writes. */
+/* V1.0.44 — local validation, encryption with a PUBLIC key, anonymous PENDING upload.
+   Editorial publication remains authorized and transactional server-side. */
 (()=>{'use strict';
- const $=id=>document.getElementById(id);
+ const $=id=>document.getElementById(id), cfg=globalThis.TWOMINUTES_COMMUNITY||{};
  const validate=globalThis.TwoMinImportValidator?.validate;
+ const encrypt=globalThis.TwoMinUploadCrypto?.encrypt;
  const maxBytes=globalThis.TwoMinImportValidator?.MAX_FILE_BYTES||204800;
- const cfg=globalThis.TWOMINUTES_COMMUNITY||{};
- let accessToken=null,documentToImport=null,busy=false,authorised=false;
  const base=String(cfg.supabaseUrl||'').replace(/\/$/,'');
- const key=cfg.supabaseAnonKey;
- const setText=(id,value)=>{$(id).textContent=value};
- function show(id,visible){$(id).classList.toggle('hidden',!visible)}
- function message(s,type=''){setText('editorialImportStatus',s);$('editorialImportStatus').className='editorialMessage '+type}
- function authMessage(s,type=''){setText('editorialAuthStatus',s);$('editorialAuthStatus').className='editorialMessage '+type}
- function refresh(){
-  $('editorialLogin').disabled=busy;
-  $('editorialLogout').disabled=busy;
-  $('editorialFile').disabled=busy||!authorised;
-  $('editorialImport').disabled=busy||!authorised||!documentToImport||!$('editorialConfirm').checked;
- }
- function resetFile(){documentToImport=null;$('editorialFile').value='';$('editorialConfirm').checked=false;show('editorialPreviewPanel',false);show('editorialReport',false);setText('editorialFileStatus','Aucun fichier sélectionné.');message('');refresh()}
- function logout(){const oldToken=accessToken;if(oldToken&&base&&key)fetch(base+'/auth/v1/logout',{method:'POST',headers:{apikey:key,Authorization:'Bearer '+oldToken}}).catch(()=>{});accessToken=null;authorised=false;resetFile();show('editorialImporter',false);show('editorialAuthForm',true);show('editorialLogout',false);$('editorialPassword').value='';$('editorialAccessBadge').textContent='Accès réservé';authMessage('Non connecté.');refresh()}
- async function jsonRequest(url,options){
-  const response=await fetch(url,options);
-  const raw=await response.text();let data;
-  try{data=raw?JSON.parse(raw):null}catch{data=null}
-  if(!response.ok){const msg=typeof data==='object'&&data&&(data.message||data.error_description||data.msg||data.error);
-   const err=new Error(msg||('Service Supabase indisponible ('+response.status+')'));err.status=response.status;throw err;}
-  return data;
- }
- async function rpc(name,body){return jsonRequest(base+'/rest/v1/rpc/'+name,{method:'POST',headers:{apikey:key,Authorization:'Bearer '+accessToken,'Content-Type':'application/json'},body:JSON.stringify(body)})}
- async function login(e){
-  e.preventDefault();if(busy||!base||!key)return;
-  busy=true;refresh();authMessage('Vérification du compte…');
-  try{
-   const data=await jsonRequest(base+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:key,'Content-Type':'application/json'},body:JSON.stringify({email:$('editorialEmail').value.trim(),password:$('editorialPassword').value})});
-   if(!data?.access_token)throw Error('Connexion refusée');
-   accessToken=data.access_token;$('editorialPassword').value='';
-   const allowed=await rpc('tm_editorial_can_import_v1',{});
-   if(allowed!==true){accessToken=null;throw Error('Ce compte n’a pas l’autorisation d’importer des analyses rédactionnelles.');}
-   authorised=true;show('editorialAuthForm',false);show('editorialLogout',true);show('editorialImporter',true);
-   $('editorialAccessBadge').textContent='Rédaction autorisée';authMessage('Compte autorisé. Session temporaire non enregistrée.','ok');
-  }catch(err){authorised=false;accessToken=null;show('editorialImporter',false);authMessage(err.message||'Échec de connexion.','error')}
-  finally{busy=false;refresh()}
- }
+ let payload=null,busy=false,token=null,staff=false;
+ const text=(id,s)=>$(id).textContent=s;
+ const setText=text;
+ const show=(id,yes)=>$(id).classList.toggle('hidden',!yes);
+ const message=(id,s,kind='')=>{$(id).textContent=s;$(id).className='editorialMessage '+kind};
+ const refresh=()=>{$('editorialFile').disabled=busy;$('editorialImport').disabled=busy||!payload||!$('editorialConfirm').checked;$('editorialLogin').disabled=busy};
+ const request=async(url,options={})=>{const res=await fetch(url,options);const raw=await res.text();let body;try{body=JSON.parse(raw)}catch{body={}}if(!res.ok)throw Error(body.error||body.message||'Service temporairement indisponible ('+res.status+')');return body};
+ const htmlSafe=x=>String(x??'');
  const tag=(tagName,text,cls)=>{const e=document.createElement(tagName);if(text!==undefined)e.textContent=text;if(cls)e.className=cls;return e};
  function extLink(url,text){const a=tag('a',text);a.href=url;a.target='_blank';a.rel='noopener noreferrer';return a}
  function field(container,label,value){const d=tag('div',undefined,'editorialPreviewField');d.append(tag('strong',label),tag('p',value));container.append(d)}
@@ -70,40 +41,73 @@
   });
   setText('editorialPairCount',payload.pairs.length+' paire(s)');show('editorialPreviewPanel',true);
  }
- async function handleFile(){const file=$('editorialFile').files?.[0];resetFile();if(!file)return;
-  try{
-   if(!authorised)throw Error('Connexion rédaction requise');
-   if(!file.name.toLowerCase().endsWith('.2min')||file.size>maxBytes||file.size===0)throw Error('Choisissez un fichier .2min valide de 200 Ko maximum.');
-   const raw=JSON.parse(await file.text());documentToImport=validate(raw);
-   setText('editorialFileStatus',file.name+' — fichier reconnu, '+documentToImport.pairs.length+' paire(s) acceptée(s).');
-   renderPreview(documentToImport);message('Relisez les affirmations et références avant toute écriture.','ok');
-  }catch(e){documentToImport=null;setText('editorialFileStatus','Fichier non retenu.');message('Fichier refusé : '+(e instanceof SyntaxError?'JSON invalide':e.message),'error')}
+
+ function resetFile(){payload=null;$('editorialConfirm').checked=false;show('editorialPreviewPanel',false);show('editorialReport',false);refresh()}
+ async function chooseFile(){resetFile();const file=$('editorialFile').files?.[0];if(!file)return;
+  try{if(!file.name.toLowerCase().endsWith('.2min')||file.size===0||file.size>maxBytes)throw Error('Fichier .2min invalide ou supérieur à 200 Ko.');
+  payload=validate(JSON.parse(await file.text()));
+  text('editorialFileStatus',file.name+' — '+payload.pairs.length+' paire(s) acceptée(s) validée(s) localement.');
+  renderPreview(payload);message('editorialImportStatus','Vérifiez la provenance réelle des citations avant l’envoi.','ok')
+  }catch(e){payload=null;text('editorialFileStatus','Fichier refusé.');message('editorialImportStatus','Erreur locale : '+(e instanceof SyntaxError?'JSON invalide':e.message),'error')}
   refresh();
  }
- async function publish(){
-  if(!authorised||!accessToken||busy||!documentToImport||!$('editorialConfirm').checked)return;
-  busy=true;refresh();message('Importation en cours — ne fermez pas cette page.');show('editorialReport',false);
+ async function readPublicKey(){const r=await fetch('./import-public-key.pem',{cache:'no-store'});if(!r.ok)throw Error('Clé publique absente : déploiement incomplet.');return r.text()}
+ async function submit(){if(busy||!payload||!$('editorialConfirm').checked)return;
+  busy=true;refresh();show('editorialReport',false);message('editorialImportStatus','Chiffrement local en cours…');
   try{
-   const result=await rpc('tm_import_editorial_2min_v2',{p_document:documentToImport});
-   if(!result||typeof result!=='object'||!Number.isInteger(result.pairs_total))throw Error('Résultat d’importation inattendu');
-   const report=[
-    'Paires traitées : '+result.pairs_total,
-    'Articles créés : '+result.articles_created+' · réutilisés : '+result.articles_reused,
-    'Liaisons créées : '+result.links_created+' · réutilisées : '+result.links_reused,
-    'Extraits créés : '+result.excerpts_created+' · réutilisés : '+result.excerpts_reused,
-    'Analyses conservées : '+result.analyses_created+' · déjà présentes : '+result.analyses_reused
-   ];
-   $('editorialReport').replaceChildren(...report.map(s=>tag('p',s)));
-   show('editorialReport',true);message('Importation confirmée par Supabase. Aucun doublon supplémentaire n’a été créé.','ok');$('editorialConfirm').checked=false;
-  }catch(e){if(e.status===401||e.status===403){logout();authMessage('Session expirée ou non autorisée : reconnectez-vous.','error')}else message('Importation refusée (aucune écriture partielle) : '+e.message,'error')}
+   if(!base||!encrypt||!validate)throw Error('Importateur non configuré.');
+   const pem=await readPublicKey(),envelope=await encrypt(payload,pem);
+   message('editorialImportStatus','Transmission chiffrée à Supabase…');
+   const result=await request(base+'/functions/v1/submit-2min',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(envelope)});
+   if(result.status!=='pending'&&result.status!=='already_pending'&&result.status!=='already_processed')throw Error('Réponse du serveur inattendue');
+   $('editorialReport').replaceChildren(tag('p','Référence de dépôt : '+result.id),tag('p','Statut : '+(result.status==='already_pending'?'déjà reçu — en attente':result.status==='already_processed'?'déjà traité':'en attente de revue')),tag('p','Aucune publication automatique.'));
+   show('editorialReport',true);$('editorialConfirm').checked=false;
+   message('editorialImportStatus','Fichier reçu de manière chiffrée. Il sera vérifié par la rédaction avant publication.','ok');
+  }catch(e){message('editorialImportStatus','Dépôt impossible : '+e.message,'error')}
   finally{busy=false;refresh()}
  }
- // Fail closed if public application configuration is not available.
- if(!base||!key||!validate){authMessage('Module indisponible : configuration ou validateur manquant.','error');$('editorialLogin').disabled=true;return;}
- $('editorialAuthForm').addEventListener('submit',login);
- $('editorialLogout').addEventListener('click',logout);
- $('editorialFile').addEventListener('change',handleFile);
- $('editorialConfirm').addEventListener('change',refresh);
- $('editorialImport').addEventListener('click',publish);
+ async function staffRpc(name,body){if(!token)throw Error('Connexion rédaction requise');return request(base+'/rest/v1/rpc/'+name,{method:'POST',headers:{apikey:cfg.supabaseAnonKey,Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify(body)})}
+ async function refreshQueue(){if(!staff)return;
+  const out=$('editorialQueueList');out.replaceChildren(tag('p','Chargement…','muted'));
+  try{const data=await staffRpc('tm_list_pending_2min_v1',{});out.replaceChildren();
+   const items=Array.isArray(data)?data:[];
+   if(!items.length){out.append(tag('p','Aucun fichier en attente.','muted'));return}
+   for(const item of items){const box=tag('article',undefined,'editorialQueueItem');box.append(tag('h4',item.reference_title||'Analyse sans titre'));
+     box.append(tag('p',(item.pairs_count||0)+' paire(s) · reçu le '+new Date(item.created_at).toLocaleString('fr-FR'),'muted small'));
+     const preview=tag('details');const summary=tag('summary','Vérifier les affirmations et les preuves');preview.append(summary);
+     // The submitted normalized document is returned only to editorial accounts.
+     const doc=item.document;
+     if(doc?.pairs&&doc.reference_article){const wrap=tag('div');const prev=$('editorialPreview');
+       // Preview each item via the same safe DOM rendering, without HTML injection.
+       wrap.append(tag('strong',doc.reference_article.title));
+       for(const pair of doc.pairs){const section=tag('div',undefined,'editorialPair');section.append(tag('h4',pair.target_article.title));
+         field(section,'Affirmation source',pair.reference_claim?.text||'');field(section,'Affirmation opposée',pair.counter_claim?.text||'');field(section,'Extrait',pair.target_excerpt);field(section,'Explication',pair.explanation);
+         for(const url of pair.evidence_urls||[])section.append(extLink(url,url));wrap.append(section)}preview.append(wrap)}
+     box.append(preview);
+     const actions=tag('div',undefined,'editorialQueueActions');
+     for(const [caption,fn,body] of [['Approuver','tm_approve_2min_submission_v1',{p_id:item.id}],['Refuser','tm_reject_2min_submission_v1',{p_id:item.id}]]){
+      const b=tag('button',caption,caption==='Approuver'?'primary':'subtle');b.type='button';b.onclick=async()=>{
+        if(!confirm(caption+' ce dépôt ?'))return;b.disabled=true;
+        try{const result=await staffRpc(fn,body);message('editorialAuthStatus',caption+' : '+JSON.stringify(result),'ok');await refreshQueue()}
+        catch(e){message('editorialAuthStatus',e.message,'error');b.disabled=false}
+      };actions.append(b)
+     }box.append(actions);out.append(box)
+   }
+  }catch(e){out.replaceChildren(tag('p','Impossible de charger la file : '+e.message,'error'))}
+ }
+ async function login(e){e.preventDefault();if(busy)return;busy=true;refresh();
+  try{if(!base||!cfg.supabaseAnonKey)throw Error('Connexion Supabase non configurée');
+   const data=await request(base+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:cfg.supabaseAnonKey,'Content-Type':'application/json'},body:JSON.stringify({email:$('editorialEmail').value.trim(),password:$('editorialPassword').value})});
+   token=data.access_token;$('editorialPassword').value='';if(await staffRpc('tm_editorial_can_import_v1',{})!==true)throw Error('Compte non habilité à la revue rédactionnelle');
+   staff=true;show('editorialReviewQueue',true);show('editorialLogout',true);show('editorialAuthForm',false);
+   message('editorialAuthStatus','Revue rédactionnelle autorisée.','ok');await refreshQueue();
+  }catch(e){token=null;staff=false;message('editorialAuthStatus',e.message,'error')}
+  finally{busy=false;refresh()}
+ }
+ $('editorialOpen').addEventListener('click',()=>{const panel=$('editorialUploadFlow'),open=panel.classList.toggle('hidden')===false;$('editorialOpen').setAttribute('aria-expanded',String(open));if(open)$('editorialFile').focus()});
+ $('editorialFile').addEventListener('change',chooseFile);$('editorialConfirm').addEventListener('change',refresh);$('editorialImport').addEventListener('click',submit);
+ $('editorialAuthForm').addEventListener('submit',login);$('editorialRefreshQueue').addEventListener('click',refreshQueue);
+ $('editorialLogout').addEventListener('click',()=>{token=null;staff=false;show('editorialReviewQueue',false);show('editorialLogout',false);show('editorialAuthForm',true);message('editorialAuthStatus','Session rédaction fermée.')});
+ if(!validate||!encrypt){message('editorialImportStatus','Module de validation ou de chiffrement manquant.','error');$('editorialOpen').disabled=true}
  refresh();
 })();
