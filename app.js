@@ -218,9 +218,9 @@ function latestCard(item){
    previous.setAttribute('aria-label','Point de vue précédent');
    next.setAttribute('aria-label','Point de vue suivant');
    const cards=[...list.children];
-   const selectedIndex=()=>{const x=list.scrollLeft;return cards.reduce((best,card,i)=>Math.abs(card.offsetLeft-list.offsetLeft-x)<Math.abs(cards[best].offsetLeft-list.offsetLeft-x)?i:best,0)};
+   const selectedIndex=()=>Math.max(0,Math.min(cards.length-1,Math.round(list.scrollLeft/Math.max(1,list.clientWidth))));
    const update=()=>{const index=selectedIndex();indicator.textContent=(index+1)+' / '+cards.length;previous.disabled=index===0;next.disabled=index===cards.length-1};
-   const move=direction=>{const index=Math.max(0,Math.min(cards.length-1,selectedIndex()+direction));list.scrollTo({left:cards[index].offsetLeft-cards[0].offsetLeft,behavior:'smooth'});};
+   const move=direction=>{const index=Math.max(0,Math.min(cards.length-1,selectedIndex()+direction));list.scrollTo({left:index*list.clientWidth,behavior:'smooth'});};
    previous.onclick=()=>move(-1);next.onclick=()=>move(1);
    list.addEventListener('scroll',update,{passive:true});
    nav.append(previous,indicator,next);
