@@ -111,8 +111,9 @@ $('latestFilterReset').onclick=()=>{for(const [field,id] of Object.entries(lates
 async function fetchLatest(query){const cfg=globalThis.TWOMINUTES_COMMUNITY||{};if(!cfg.supabaseUrl||!cfg.supabaseAnonKey)throw Error('Connexion communautaire non configurée.');
  const endpoint=cfg.supabaseUrl.replace(/\/$/,'')+'/rest/v1/rpc/';const headers={apikey:cfg.supabaseAnonKey,Authorization:'Bearer '+cfg.supabaseAnonKey,'Content-Type':'application/json'};
  const body=JSON.stringify({p_search:query,p_limit:50});
- let response=await fetch(endpoint+'list_recent_articles_public_v2',{method:'POST',headers,body});
- if(!response.ok&&[404,400].includes(response.status)){response=await fetch(endpoint+'list_recent_articles_public_v1',{method:'POST',headers,body});}
+ let response=await fetch(endpoint+'list_recent_articles_public_v3',{method:'POST',headers,body});
+ if(!response.ok&&[404,400].includes(response.status))response=await fetch(endpoint+'list_recent_articles_public_v2',{method:'POST',headers,body});
+ if(!response.ok&&[404,400].includes(response.status))response=await fetch(endpoint+'list_recent_articles_public_v1',{method:'POST',headers,body});
  if(!response.ok){if([404,400].includes(response.status))throw Error('La liste publique des articles nécessite l’activation de la fonction SQL fournie.');throw Error('Impossible de charger les derniers articles ('+response.status+').')}
  const data=await response.json();if(!Array.isArray(data))throw Error('Réponse inattendue du serveur.');return data;
 }
@@ -180,8 +181,17 @@ function latestCard(item){
    const a=node('a','relatedTitle',rel.title||rel.domain||'Article lié');trustedArticleLink(a,rel.url);information.append(a);
    const relatedDomain=rel.domain||domain(rel.url);const relatedMeta=node('p','latestDetails',relatedDomain+' · '+publicBias(relatedDomain));
    const rb=biasOf(relatedDomain);if(rb){const dot=node('span','editorialDot');dot.style.backgroundColor=colors[String(rb.score)]||'#64748b';dot.setAttribute('aria-hidden','true');relatedMeta.prepend(dot)}information.append(relatedMeta);
+   // Le passage source est propre à cette liaison : il ne doit jamais être
+   // remplacé par un autre passage de l'article source.
+   if(typeof rel.source_excerpt==='string'&&rel.source_excerpt.trim()){
+    const sourcePassage=node('div','latestSourcePassage');
+    sourcePassage.append(node('span','latestPassageLabel','Passage sélectionné dans l’article source'),node('blockquote','latestPassageQuote','« '+rel.source_excerpt.trim()+' »'));
+    information.append(sourcePassage);
+   }
    if(rel.excerpt){
-    information.append(node('span','latestExcerpt','« '+rel.excerpt+' »'));
+    const linkedPassage=node('div','latestLinkedPassage');
+    linkedPassage.append(node('span','latestPassageLabel','Passage sélectionné dans cet autre article'),node('blockquote','latestPassageQuote','« '+rel.excerpt+' »'));
+    information.append(linkedPassage);
     information.append(node('div','latestVotes','↑ '+Number(rel.upvotes||0)+' pertinents · ↓ '+Number(rel.downvotes||0)+' hors sujet'));
    }else information.append(node('span','latestNoExcerpt','Aucun passage sélectionné pour cet article lié.'));
    row.append(information);li.append(row);list.append(li);
