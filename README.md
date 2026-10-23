@@ -252,3 +252,10 @@ Rétablissement des fonds d’origine des champs et boutons (avant V1.0.34), san
 
 ## V1.0.45
 Correction de la lecture bidirectionnelle des passages source et lié dans les cartes de la page d’accueil, sans changement SQL.
+
+## V1.0.46
+- Suppression des messages sur les extraits manquants.
+- Support optionnel de `pairs[].reference_excerpt` (12–600 caractères) dans les fichiers `.2min`.
+- Import des deux passages dans leurs articles respectifs lorsque le passage de référence est fourni.
+- Migration additive `supabase-import-reference-excerpts-v1.0.46.sql` à appliquer manuellement.
+- Les anciens fichiers `.2min` restent compatibles ; aucun passage absent n'est inventé.

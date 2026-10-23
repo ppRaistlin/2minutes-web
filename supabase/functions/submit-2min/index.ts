@@ -41,7 +41,9 @@ function validateDocument(v: unknown) {
     if(!a || typeof a!=='object')throw Error('Missing target article');
     const url=checkUrl(a.url);checkText(a.title,1,500);
     if(url===refUrl||seen.has(url))throw Error('Duplicate article');seen.add(url);
-    checkText(pair.target_excerpt,12,600);checkText(pair.explanation,1,5000);
+    checkText(pair.target_excerpt,12,600);
+    if(pair.reference_excerpt!==undefined && pair.reference_excerpt!==null)checkText(pair.reference_excerpt,12,600);
+    checkText(pair.explanation,1,5000);
     for(const name of ['reference_claim','counter_claim']){
       const claim=pair[name] as Record<string,unknown>;
       if(!claim || typeof claim!=='object')throw Error('Missing claim');

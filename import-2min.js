@@ -32,6 +32,7 @@
    field(box,'Auteur / attribution (référence)',p.reference_claim.attribution);
    field(box,'Affirmation opposée',p.counter_claim.text);
    field(box,'Auteur / attribution (opposition)',p.counter_claim.attribution);
+   if(p.reference_excerpt)field(box,'Passage authentique sélectionné dans l’article de référence',p.reference_excerpt);
    field(box,'Passage authentique sélectionné dans l’article lié',p.target_excerpt);
    field(box,'Nature de la confrontation',p.contradiction_type||'Non précisée');
    field(box,'Explication',p.explanation);
@@ -81,7 +82,8 @@
        // Preview each item via the same safe DOM rendering, without HTML injection.
        wrap.append(tag('strong',doc.reference_article.title));
        for(const pair of doc.pairs){const section=tag('div',undefined,'editorialPair');section.append(tag('h4',pair.target_article.title));
-         field(section,'Affirmation source',pair.reference_claim?.text||'');field(section,'Affirmation opposée',pair.counter_claim?.text||'');field(section,'Extrait',pair.target_excerpt);field(section,'Explication',pair.explanation);
+         field(section,'Affirmation source',pair.reference_claim?.text||'');field(section,'Affirmation opposée',pair.counter_claim?.text||'');if(pair.reference_excerpt)field(section,'Passage de référence',pair.reference_excerpt);
+         field(section,'Extrait lié',pair.target_excerpt);field(section,'Explication',pair.explanation);
          for(const url of pair.evidence_urls||[])section.append(extLink(url,url));wrap.append(section)}preview.append(wrap)}
      box.append(preview);
      const actions=tag('div',undefined,'editorialQueueActions');

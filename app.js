@@ -204,9 +204,9 @@ function latestCard(item){
     if(rel.excerpt_origin==='editorial')linkedPassage.append(node('span','editorialOrigin','Sélectionné par la rédaction 2minutes'));
     information.append(linkedPassage);
     information.append(node('div','latestVotes','↑ '+Number(rel.upvotes||0)+' pertinents · ↓ '+Number(rel.downvotes||0)+' hors sujet'));
-   }else if(hasSourceExcerpt){
-    information.append(node('span','latestNoExcerpt','Le passage de l’article lié n’est pas disponible ; le passage de l’article consulté figure ci-dessus.'));
-   }else information.append(node('span','latestNoExcerpt','Aucun passage sélectionné pour cette liaison.'));
+   }
+   // Un passage absent ne produit pas de message parasite.
+   // La présence d'un seul passage reste parfaitement valide.
    row.append(information);li.append(row);list.append(li);
   }
   section.append(list);group.append(expand,section);card.append(group);setExpanded(false);

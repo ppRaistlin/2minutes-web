@@ -43,6 +43,10 @@
    seen.add(targetUrl);
    const targetTitle=text(p.target_article.title,1,500,label+' : titre');
    const targetExcerpt=text(p.target_excerpt,12,600,label+' : extrait').replace(/\s+/g,' ').trim();
+   // Optionnel en 0.1-draft pour ne pas invalider les fichiers existants.
+   // Les nouveaux Wizards doivent fournir le passage authentique de référence.
+   const referenceExcerpt=p.reference_excerpt==null?null:
+     text(p.reference_excerpt,12,600,label+' : passage de référence').replace(/\s+/g,' ').trim();
    if(Array.from(targetExcerpt).length<12)throw Error(label+' : extrait trop court');
    if(!obj(p.reference_claim)||!obj(p.counter_claim))throw Error(label+' : affirmations manquantes');
    const refClaim={text:text(p.reference_claim.text,1,3000,label+' : affirmation source'),attribution:text(p.reference_claim.attribution,1,500,label+' : auteur de la source')};
@@ -53,7 +57,7 @@
    const evidenceUrls=p.evidence_urls.map(canonical);
    if(!evidenceUrls.includes(referenceUrl)||!evidenceUrls.includes(targetUrl))throw Error(label+' : les deux URL des articles doivent figurer dans les références');
    return {approval:'accepted',target_article:{url:targetUrl,title:targetTitle},reference_claim:refClaim,counter_claim:counterClaim,
-           target_excerpt:targetExcerpt,contradiction_type:contradictionType,explanation,evidence_urls:evidenceUrls};
+           target_excerpt:targetExcerpt,...(referenceExcerpt?{reference_excerpt:referenceExcerpt}:{}),contradiction_type:contradictionType,explanation,evidence_urls:evidenceUrls};
   });
   return {format:'2minutes-article-confrontation',format_version:'0.1-draft',status:'user_approved',
     search_language:language,reference_article:{url:referenceUrl,title:referenceTitle},pairs};
