@@ -259,3 +259,10 @@ Correction de la lecture bidirectionnelle des passages source et lié dans les c
 - Import des deux passages dans leurs articles respectifs lorsque le passage de référence est fourni.
 - Migration additive `supabase-import-reference-excerpts-v1.0.46.sql` à appliquer manuellement.
 - Les anciens fichiers `.2min` restent compatibles ; aucun passage absent n'est inventé.
+
+## V1.0.47
+- Passage de référence facultatif maintenu (`reference_excerpt`) ; les fichiers anciens restent compatibles.
+- `reference_article.image_url` et `pairs[].target_article.image_url` facultatifs, URL HTTPS validées localement et côté serveur.
+- La migration SQL remplit `tm_articles.image_url` lors de la création ou si l'image est absente, sans remplacer les photos existantes.
+- Carrousel horizontal élargi, responsive et défilement conservé.
+- Les photos manquantes dans les fichiers déjà importés ne sont pas inventées ni récupérées automatiquement.

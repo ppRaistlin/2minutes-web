@@ -589,3 +589,12 @@ body[data-theme="dark"] .editorialMessage.ok{color:#9be8b7}
 .editorialQueueActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .editorialQueueActions button{width:auto}
 @media(max-width:680px){.editorialHomeCard{padding:16px;margin:8px 0 18px}.editorialHomeTop{align-items:stretch;flex-direction:column}.editorialOpenButton{width:100%;min-width:0}.editorialHomeCard h2{font-size:21px}}
+
+/* V1.0.47 — carrousel lisible, sans coupure des textes ni double cadre */
+#latestArticles .latestRelationsScrollable{display:flex!important;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;scroll-padding-inline:0;padding-bottom:14px!important}
+#latestArticles .latestRelationsScrollable>.latestRelation{flex:0 0 min(94%,780px)!important;max-width:780px;min-width:0;padding:8px 16px!important;border-left:1px solid var(--border)!important;scroll-snap-align:start}
+#latestArticles .latestRelationsScrollable>.latestRelation:first-child{border-left:0!important;padding-left:0!important}
+#latestArticles .latestRelationsScrollable .relatedText{min-width:0;overflow-wrap:anywhere}
+#latestArticles .latestRelationsScrollable .relatedTitle{display:block;overflow-wrap:anywhere;white-space:normal}
+#latestArticles .latestRelationsScrollable .latestExcerpt{white-space:pre-wrap;overflow-wrap:anywhere}
+@media(max-width:680px){#latestArticles .latestRelationsScrollable>.latestRelation{flex-basis:94%!important;padding-right:12px!important}}

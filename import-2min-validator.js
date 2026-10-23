@@ -24,12 +24,20 @@
   if(u.href.length>4000)throw Error('URL trop longue');
   return u.href;
  }
+ function imageUrl(raw,field){
+  if(raw==null||raw==='')return null;
+  if(typeof raw!=='string'||raw.length>2000)throw Error(field+' : URL image invalide');
+  let u;try{u=new URL(raw)}catch{throw Error(field+' : URL image invalide')}
+  if(u.protocol!=='https:'||u.username||u.password||u.port||!u.hostname.includes('.')||u.hostname==='localhost'||/\\/.test(raw)||/[\u0000-\u001f]/.test(raw))throw Error(field+' : URL image non autorisée');
+  u.hash='';return u.href;
+ }
  function validate(raw){
   if(!obj(raw)||raw.format!=='2minutes-article-confrontation'||raw.format_version!=='0.1-draft'||raw.status!=='user_approved')
    throw Error('Format, statut ou version .2min incompatible (attendu : 0.1-draft approuvé)');
   if(!obj(raw.reference_article))throw Error('Article de référence manquant');
   const referenceUrl=canonical(raw.reference_article.url);
   const referenceTitle=text(raw.reference_article.title,1,500,'Titre de référence');
+  const referenceImage=imageUrl(raw.reference_article.image_url,'Image de référence');
   const language=text(raw.search_language??raw.language,2,5,'Langue');
   if(!/^[a-z]{2}(-[A-Za-z]{2})?$/.test(language))throw Error('Langue de recherche incorrecte');
   if(!Array.isArray(raw.pairs)||raw.pairs.length<1||raw.pairs.length>25)throw Error('Le fichier doit contenir entre 1 et 25 paires');
@@ -42,6 +50,7 @@
    if(targetUrl===referenceUrl||seen.has(targetUrl))throw Error(label+' : même article ou doublon d’URL');
    seen.add(targetUrl);
    const targetTitle=text(p.target_article.title,1,500,label+' : titre');
+   const targetImage=imageUrl(p.target_article.image_url,label+' : image');
    const targetExcerpt=text(p.target_excerpt,12,600,label+' : extrait').replace(/\s+/g,' ').trim();
    // Optionnel en 0.1-draft pour ne pas invalider les fichiers existants.
    // Les nouveaux Wizards doivent fournir le passage authentique de référence.
@@ -56,11 +65,11 @@
    if(!Array.isArray(p.evidence_urls)||p.evidence_urls.length<2||p.evidence_urls.length>12)throw Error(label+' : références manquantes ou trop nombreuses');
    const evidenceUrls=p.evidence_urls.map(canonical);
    if(!evidenceUrls.includes(referenceUrl)||!evidenceUrls.includes(targetUrl))throw Error(label+' : les deux URL des articles doivent figurer dans les références');
-   return {approval:'accepted',target_article:{url:targetUrl,title:targetTitle},reference_claim:refClaim,counter_claim:counterClaim,
+   return {approval:'accepted',target_article:{url:targetUrl,title:targetTitle,...(targetImage?{image_url:targetImage}:{})},reference_claim:refClaim,counter_claim:counterClaim,
            target_excerpt:targetExcerpt,...(referenceExcerpt?{reference_excerpt:referenceExcerpt}:{}),contradiction_type:contradictionType,explanation,evidence_urls:evidenceUrls};
   });
   return {format:'2minutes-article-confrontation',format_version:'0.1-draft',status:'user_approved',
-    search_language:language,reference_article:{url:referenceUrl,title:referenceTitle},pairs};
+    search_language:language,reference_article:{url:referenceUrl,title:referenceTitle,...(referenceImage?{image_url:referenceImage}:{})},pairs};
  }
  return {validate,canonical,MAX_FILE_BYTES};
 });

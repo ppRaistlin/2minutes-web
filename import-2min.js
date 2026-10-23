@@ -34,6 +34,7 @@
    field(box,'Auteur / attribution (opposition)',p.counter_claim.attribution);
    if(p.reference_excerpt)field(box,'Passage authentique sélectionné dans l’article de référence',p.reference_excerpt);
    field(box,'Passage authentique sélectionné dans l’article lié',p.target_excerpt);
+   if(p.target_article.image_url)field(box,'Image de l’article lié',p.target_article.image_url);
    field(box,'Nature de la confrontation',p.contradiction_type||'Non précisée');
    field(box,'Explication',p.explanation);
    const evidence=tag('div',undefined,'editorialPreviewField');evidence.append(tag('strong','Références à vérifier'));

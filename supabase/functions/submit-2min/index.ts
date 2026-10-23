@@ -23,6 +23,12 @@ function validateDocument(v: unknown) {
   if (o.format!=='2minutes-article-confrontation' || o.format_version!=='0.1-draft' || o.status!=='user_approved') throw Error('Unsupported 2min format');
   if (!Array.isArray(o.pairs) || o.pairs.length<1 || o.pairs.length>25) throw Error('Invalid number of pairs');
   if (typeof o.search_language!=='string' || !/^[a-z]{2}(-[A-Za-z]{2})?$/.test(o.search_language)) throw Error('Invalid language');
+  const checkImage=(value:unknown)=>{
+    if(value===undefined||value===null||value==='')return;
+    if(typeof value!=='string'||value.length>2000)throw Error('Invalid image URL');
+    const u=new URL(value);
+    if(u.protocol!=='https:'||u.username||u.password||u.port||!u.hostname.includes('.')||u.hostname==='localhost'||/[\\\u0000-\u001f]/.test(value))throw Error('Disallowed image URL');
+  };
   const ref=o.reference_article as Record<string,unknown>;
   const checkUrl=(value: unknown) => {
     if (typeof value!=='string' || value.length>4000 || /[\u0000-\u001f\\]/.test(value)) throw Error('Invalid URL');
@@ -33,13 +39,13 @@ function validateDocument(v: unknown) {
   };
   const checkText=(value:unknown,min:number,max:number)=>{if(typeof value!=='string'||value.trim().length<min||[...value.trim()].length>max)throw Error('Invalid text field')};
   if(!ref || typeof ref!=='object')throw Error('Missing reference article');
-  const refUrl=checkUrl(ref.url);checkText(ref.title,1,500);
+  const refUrl=checkUrl(ref.url);checkText(ref.title,1,500);checkImage(ref.image_url);
   const seen=new Set<string>();
   for(const pair of o.pairs as Record<string,unknown>[]){
     if(!pair || pair.approval!=='accepted')throw Error('Unapproved pair');
     const a=pair.target_article as Record<string,unknown>;
     if(!a || typeof a!=='object')throw Error('Missing target article');
-    const url=checkUrl(a.url);checkText(a.title,1,500);
+    const url=checkUrl(a.url);checkText(a.title,1,500);checkImage(a.image_url);
     if(url===refUrl||seen.has(url))throw Error('Duplicate article');seen.add(url);
     checkText(pair.target_excerpt,12,600);
     if(pair.reference_excerpt!==undefined && pair.reference_excerpt!==null)checkText(pair.reference_excerpt,12,600);
