@@ -117,7 +117,8 @@ $('latestFilterReset').onclick=()=>{for(const [field,id] of Object.entries(lates
 async function fetchLatest(query){const cfg=globalThis.TWOMINUTES_COMMUNITY||{};if(!cfg.supabaseUrl||!cfg.supabaseAnonKey)throw Error('Connexion communautaire non configurée.');
  const endpoint=cfg.supabaseUrl.replace(/\/$/,'')+'/rest/v1/rpc/';const headers={apikey:cfg.supabaseAnonKey,Authorization:'Bearer '+cfg.supabaseAnonKey,'Content-Type':'application/json'};
  const body=JSON.stringify({p_search:query,p_limit:50});
- let response=await fetch(endpoint+'list_recent_articles_public_v3',{method:'POST',headers,body});
+ let response=await fetch(endpoint+'list_recent_articles_public_v4',{method:'POST',headers,body});
+ if(!response.ok&&[404,400].includes(response.status))response=await fetch(endpoint+'list_recent_articles_public_v3',{method:'POST',headers,body});
  if(!response.ok&&[404,400].includes(response.status))response=await fetch(endpoint+'list_recent_articles_public_v2',{method:'POST',headers,body});
  if(!response.ok&&[404,400].includes(response.status))response=await fetch(endpoint+'list_recent_articles_public_v1',{method:'POST',headers,body});
  if(!response.ok){if([404,400].includes(response.status))throw Error('La liste publique des articles nécessite l’activation de la fonction SQL fournie.');throw Error('Impossible de charger les derniers articles ('+response.status+').')}
@@ -192,11 +193,13 @@ function latestCard(item){
    if(typeof rel.source_excerpt==='string'&&rel.source_excerpt.trim()){
     const sourcePassage=node('div','latestSourcePassage');
     sourcePassage.append(node('span','latestPassageLabel','Passage sélectionné dans l’article source'),node('blockquote','latestPassageQuote','« '+rel.source_excerpt.trim()+' »'));
+    if(rel.source_origin==='editorial')sourcePassage.append(node('span','editorialOrigin','Sélectionné par la rédaction 2minutes'));
     information.append(sourcePassage);
    }
    if(rel.excerpt){
     const linkedPassage=node('div','latestLinkedPassage');
     linkedPassage.append(node('span','latestPassageLabel','Passage sélectionné dans cet autre article'),node('blockquote','latestPassageQuote','« '+rel.excerpt+' »'));
+    if(rel.excerpt_origin==='editorial')linkedPassage.append(node('span','editorialOrigin','Sélectionné par la rédaction 2minutes'));
     information.append(linkedPassage);
     information.append(node('div','latestVotes','↑ '+Number(rel.upvotes||0)+' pertinents · ↓ '+Number(rel.downvotes||0)+' hors sujet'));
    }else information.append(node('span','latestNoExcerpt','Aucun passage sélectionné pour cet article lié.'));
@@ -227,11 +230,11 @@ $('clearHistory').onclick=()=>{history=[];store('history',history);renderHistory
 function record(url,title){history=[{url,title,domain:domain(url),date:Date.now()},...history.filter(h=>h.url!==url)].slice(0,20);store('history',history)}
 function renderCurrentFav(){if(!current)return;const b=$('favoriteCurrent');b.textContent=favs.has(current.domain)?'★ Retirer des favoris':'☆ Ajouter aux favoris';b.onclick=()=>{favs.has(current.domain)?favs.delete(current.domain):favs.add(current.domain);store('favorites',[...favs]);renderCurrentFav();renderFavorites();renderMedia()}}
 async function community(url){let cfg=globalThis.TWOMINUTES_COMMUNITY||{};if(!cfg.supabaseUrl||!cfg.supabaseAnonKey)throw Error('Connexion communautaire non configurée.');const root=cfg.supabaseUrl.replace(/\/$/,'')+'/rest/v1/rpc/';const headers={apikey:cfg.supabaseAnonKey,Authorization:'Bearer '+cfg.supabaseAnonKey,'Content-Type':'application/json'};const body=JSON.stringify({p_page_url:url});
- let r=await fetch(root+'list_article_views_v3',{method:'POST',headers,body});if(!r.ok&&[404,400].includes(r.status))r=await fetch(root+'list_article_views_v2',{method:'POST',headers,body});if(!r.ok)throw Error('Service communautaire temporairement indisponible ('+r.status+').');let data=await r.json();if(!Array.isArray(data))throw Error('Réponse communautaire inattendue.');return data}
+ let r=await fetch(root+'list_article_views_web_v4',{method:'POST',headers,body});if(!r.ok&&[404,400].includes(r.status))r=await fetch(root+'list_article_views_v3',{method:'POST',headers,body});if(!r.ok&&[404,400].includes(r.status))r=await fetch(root+'list_article_views_v2',{method:'POST',headers,body});if(!r.ok)throw Error('Service communautaire temporairement indisponible ('+r.status+').');let data=await r.json();if(!Array.isArray(data))throw Error('Réponse communautaire inattendue.');return data}
 async function articleMetadata(url){const cfg=globalThis.TWOMINUTES_COMMUNITY||{};if(!cfg.supabaseUrl||!cfg.supabaseAnonKey)return null;try{const r=await fetch(cfg.supabaseUrl.replace(/\/$/,'')+'/rest/v1/rpc/get_public_article_metadata_v1',{method:'POST',headers:{apikey:cfg.supabaseAnonKey,Authorization:'Bearer '+cfg.supabaseAnonKey,'Content-Type':'application/json'},body:JSON.stringify({p_url:url})});if(!r.ok)return null;const rows=await r.json();return Array.isArray(rows)?rows[0]||null:null}catch{return null}}
 
 function renderContributions(items){const out=$('communityCards');out.replaceChildren();let groups=new Map();for(let x of items){if(!x.other_url)continue;let g=groups.get(x.other_url)||[];g.push(x);groups.set(x.other_url,g)}$('communityCount').textContent=groups.size?groups.size+' article(s) lié(s)':'';if(!groups.size){$('communityStatus').textContent='Aucun article lié pour le moment. Vous pouvez explorer d’autres sources.';return}$('communityStatus').textContent='';
- for(const [url,group] of groups){const card=node('article','contribution'),d=domain(url),b=biasOf(d),head=node('div','contributionHead'),text=node('div','contributionText'),h=node('h3','',group[0].other_title||d),link=node('a','','Lire l’article lié ↗');trustedArticleLink(link,url);appendArticleImage(head,group[0].other_image_url,url,'contributionImage');text.append(badge(b),h,node('p','muted small',d),link);head.append(text);card.append(head);for(const x of group){if(!x.excerpt)continue;card.append(node('blockquote','',x.excerpt));let meta=node('div','meta');meta.append(node('span','',x.confirmed?'✓ Confirmé':'Proposé — pas encore confirmé'),node('span','','↑ '+(x.upvotes||0)+' pertinent(s)'),node('span','','↓ '+(x.downvotes||0)+' hors sujet'));card.append(meta)}out.append(card)}
+ for(const [url,group] of groups){const card=node('article','contribution'),d=domain(url),b=biasOf(d),head=node('div','contributionHead'),text=node('div','contributionText'),h=node('h3','',group[0].other_title||d),link=node('a','','Lire l’article lié ↗');trustedArticleLink(link,url);appendArticleImage(head,group[0].other_image_url,url,'contributionImage');text.append(badge(b),h,node('p','muted small',d),link);head.append(text);card.append(head);for(const x of group){if(!x.excerpt)continue;card.append(node('blockquote','',x.excerpt));if(x.origin==='editorial')card.append(node('span','editorialOrigin','Sélectionné par la rédaction 2minutes'));let meta=node('div','meta');meta.append(node('span','',x.confirmed?'✓ Confirmé':'Proposé — pas encore confirmé'),node('span','','↑ '+(x.upvotes||0)+' pertinent(s)'),node('span','','↓ '+(x.downvotes||0)+' hors sujet'));card.append(meta)}out.append(card)}
 }
 
 // CORS: a static GitHub Pages app cannot read arbitrary newspaper metadata.

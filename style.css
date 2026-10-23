@@ -531,3 +531,43 @@ body[data-theme="dark"] .helpDialog{background:#122033;color:#f4f7fb}
 #mediaFavoriteList .mediaRowScale{flex:0 0 128px;width:128px;max-width:43%}
 #mediaFavoriteList .editorialScaleLabels{font-size:9px}
 @media(max-width:680px){.latestHeader{align-items:flex-start}.latestViewToggle{width:100%;justify-content:space-between}.latestViewToggle button{flex:1}.mediaRowScale{flex:0 0 108px;width:108px;max-width:42%}.mediaRowScale .editorialScaleLabels{font-size:9px}}
+
+
+/* V1.0.43 — formulaire rédactionnel intégré dans Paramètres. */
+.editorialAccess{width:min(100%,890px);margin:22px auto 8px;padding:22px;border:1px solid var(--border);border-radius:18px;background:var(--surface);color:var(--text);box-shadow:var(--shadow)}
+.editorialAccessHead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.editorialAccessHead h2{font-size:22px;margin:0}
+.editorialAccessBadge{font-size:12px;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:5px 9px}
+.editorialAuthForm{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:14px 0}
+.editorialAuthForm label,.editorialImporter label{font-size:13px;font-weight:650}
+.editorialAuthForm input,.editorialImporter input[type="file"]{min-width:0;width:100%;border:1px solid var(--border);border-radius:10px;background:var(--input-bg,var(--bg));color:var(--text);padding:11px}
+.editorialAuthActions{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap}
+.editorialAuthActions button{min-width:140px}
+.editorialImporter{margin-top:18px;padding-top:15px;border-top:1px solid var(--border)}
+.editorialImporter h3{font-size:20px;margin:0 0 12px}
+.editorialPreviewPanel{padding:18px 0 0;border-top:1px solid var(--border);margin-top:15px}
+.editorialPreviewHeader{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.editorialPreviewHeader h4{margin:0;font-size:17px}
+.editorialPairCount,.editorialAccepted{display:inline-block;border:1px solid var(--border);border-radius:999px;padding:4px 9px;font-size:12px;color:var(--muted)}
+.editorialPreview{margin:12px 0;overflow-wrap:anywhere}
+.editorialPreview>h4{margin:10px 0 6px}
+.editorialUrl{font-size:12px;overflow-wrap:anywhere;color:var(--muted);margin:7px 0 12px}
+.editorialPair{margin:18px 0;padding:18px;border:1px solid var(--border);border-radius:14px;background:var(--bg);overflow-wrap:anywhere}
+.editorialPair h4{margin:0 0 9px;font-size:16px}
+.editorialPreviewField{margin-top:12px}
+.editorialPreviewField strong{font-size:13px}
+.editorialPreviewField p{margin:4px 0;line-height:1.55;white-space:pre-wrap}
+.editorialPreviewField ul{margin:6px 0 6px 18px;padding:0}
+.editorialPreviewField li{margin:5px 0;overflow-wrap:anywhere}
+.editorialAccepted{margin-top:12px;color:var(--blue)}
+.editorialConfirm{display:flex!important;gap:10px;align-items:flex-start;margin:18px 0!important;font-size:14px!important;line-height:1.5;cursor:pointer}
+.editorialConfirm input{flex:0 0 19px;width:19px;height:19px;min-height:0;margin:2px 0 0;accent-color:var(--blue)}
+.editorialMessage{margin:12px 0!important;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px}
+.editorialMessage.error{color:#bf4949}
+.editorialMessage.ok{color:#187b52}
+body[data-theme="dark"] .editorialMessage.error{color:#ffa3a3}
+body[data-theme="dark"] .editorialMessage.ok{color:#9be8b7}
+.editorialReport{border:1px solid var(--border);border-radius:12px;padding:13px 16px;margin-top:15px;background:var(--bg)}
+.editorialReport p{margin:7px 0;font-size:13px}
+#editorialImport:disabled,.editorialAuthForm button:disabled{opacity:.5;cursor:not-allowed}
+@media(max-width:680px){.editorialAccess{margin:18px 0;padding:15px;border-radius:14px}.editorialAuthForm{grid-template-columns:1fr;gap:8px}.editorialPair{padding:12px}.editorialAccessHead h2{font-size:19px}}

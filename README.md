@@ -1,3 +1,16 @@
+# 2Minutes Web/PWA v1.0.43 — Importation rédactionnelle .2min
+
+- Nouvelle rubrique **Importation rédactionnelle** dans Paramètres avec authentification Supabase Auth et vérification serveur des droits.
+- Import du format JSON `.2min` `0.1-draft`, aperçu des paires acceptées, auteurs, affirmations, passages et preuves, confirmation humaine explicite.
+- Importation atomique/idempotente côté Supabase, sans clé d'administration dans le navigateur et sans modification des fonctions d'écriture communautaire.
+- Conservation des explications et preuves dans `tm_editorial_analyses` (accès direct fermé), marquage **« Sélectionné par la rédaction 2minutes »** dans les cartes où la fonction V4 fournit `origin`.
+- Fonctions de lecture V4 avec repli sur V3/V2 pour préserver les déploiements précédents.
+- Versions et cache PWA mis à jour ; favoris, BD, vidéos et filtres conservés.
+- **À lire avant déploiement :** `IMPORT_2MIN_INSTALL.md`, `TESTS_V1.0.43.md` et `supabase-import-editorial-2min-v1.sql`.
+- Aucune migration exécutée automatiquement. Les tests SQL réels restent à faire avant mise en production.
+
+---
+
 ## V1.0.38 — Recherche dans les titres
 
 - Champ « Mots-clés du titre… » : fond blanc (`#FFFFFF`) uniquement en thème clair.

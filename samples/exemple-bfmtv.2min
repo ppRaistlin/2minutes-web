@@ -1,0 +1,71 @@
+{
+  "format": "2minutes-article-confrontation",
+  "format_version": "0.1-draft",
+  "language": "fr",
+  "status": "user_approved",
+  "reference_article": {
+    "url": "https://www.bfmtv.com/police-justice/un-recours-depose-devant-le-conseil-d-etat-apres-les-declarations-d-emmanuel-macron-sur-l-interdiction-de-manifestations-non-syndicales_AV-202610220978.html",
+    "domain": "bfmtv.com",
+    "title": "Un recours déposé devant le Conseil d'État après les déclarations d'Emmanuel Macron sur l'interdiction de manifestations non syndicales",
+    "published_at": "2026-10-22",
+    "source_text_provided_by_user": true
+  },
+  "pairs": [
+    {
+      "approval": "accepted",
+      "target_article": {
+        "url": "https://lcp.fr/actualites/emmanuel-macron-souhaite-interdire-ce-week-end-les-manifestations-organisees-par-des",
+        "domain": "lcp.fr",
+        "title": "Emmanuel Macron souhaite interdire ce week-end les manifestations organisées par « des gens qui n’ont aucune légitimité pour cela »",
+        "published_at": "2026-10-22"
+      },
+      "reference_claim": {
+        "text": "En arrêtant lui-même une doctrine d’interdiction destinée aux préfets, le président de la République a pris une décision qu’aucun texte ne lui permet de prendre.",
+        "attribution": "Association de défense des libertés constitutionnelles et Syndicat de la magistrature, dans le recours cité par BFMTV"
+      },
+      "counter_claim": {
+        "text": "Les interdictions seront décidées au cas par cas par les préfets selon les risques de troubles à l’ordre public.",
+        "attribution": "Maud Bregeon, porte-parole du gouvernement, citée par LCP"
+      },
+      "target_excerpt": "Ces interdictions se feront \"au cas par cas\"",
+      "contradiction_type": "disagreement_on_legal_interpretation",
+      "explanation": "Les requérants contestent la légalité d'une doctrine générale présidentielle, tandis que le gouvernement affirme que les interdictions relèvent de décisions préfectorales individualisées. Cette opposition de positions n'établit pas à elle seule la légalité de la doctrine.",
+      "evidence_urls": [
+        "https://www.bfmtv.com/police-justice/un-recours-depose-devant-le-conseil-d-etat-apres-les-declarations-d-emmanuel-macron-sur-l-interdiction-de-manifestations-non-syndicales_AV-202610220978.html",
+        "https://lcp.fr/actualites/emmanuel-macron-souhaite-interdire-ce-week-end-les-manifestations-organisees-par-des"
+      ]
+    },
+    {
+      "approval": "accepted",
+      "target_article": {
+        "url": "https://www.rtl.fr/actu/debats-societe/manifestations-interdites-a-marseille-lyon-ou-nice-jusqu-ou-peut-aller-l-etat-pour-empecher-les-rassemblements-7900688160",
+        "domain": "rtl.fr",
+        "title": "Manifestations interdites à Marseille, Lyon ou Nice : jusqu'où peut aller l'État pour empêcher les rassemblements ?",
+        "published_at": "2026-10-22"
+      },
+      "reference_claim": {
+        "text": "L’article L. 211-4 du code de la sécurité intérieure ne permet l’interdiction d’une manifestation que si l’autorité investie des pouvoirs de police estime qu’elle est de nature à troubler l’ordre public.",
+        "attribution": "Requérants, dans le recours cité par BFMTV"
+      },
+      "counter_claim": {
+        "text": "Le droit de manifester est conditionné par d’autres libertés et les impératifs d’ordre public ; l'insuffisance des moyens de maintien de l’ordre peut justifier une interdiction sous le contrôle du juge.",
+        "attribution": "Benjamin Morel, constitutionnaliste, cité par RTL"
+      },
+      "target_excerpt": "Il est conditionné par d’autres droits et libertés, et puis des impératifs d’ordre public",
+      "contradiction_type": "difference_in_legal_assessment",
+      "explanation": "Les requérants insistent sur le risque de trouble à l'ordre public et contestent une recommandation générale ; Benjamin Morel souligne aussi la capacité concrète de sécuriser les manifestations et la proportionnalité. Ces approches peuvent partiellement coexister : il s'agit d'une confrontation d'arguments, pas d'une réfutation factuelle.",
+      "evidence_urls": [
+        "https://www.bfmtv.com/police-justice/un-recours-depose-devant-le-conseil-d-etat-apres-les-declarations-d-emmanuel-macron-sur-l-interdiction-de-manifestations-non-syndicales_AV-202610220978.html",
+        "https://www.rtl.fr/actu/debats-societe/manifestations-interdites-a-marseille-lyon-ou-nice-jusqu-ou-peut-aller-l-etat-pour-empecher-les-rassemblements-7900688160"
+      ]
+    }
+  ],
+  "import_hints": {
+    "origin": "editorial",
+    "requires_user_confirmation": true,
+    "validate_media_allowlist": true,
+    "deduplicate_by_canonical_url": true,
+    "no_sql_embedded": true
+  },
+  "schema_note": "Format provisoire du Wizard V0.3 : le site et l’extension devront implémenter un importeur et valider le schéma avant toute écriture."
+}
