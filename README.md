@@ -249,3 +249,6 @@ Rétablissement des fonds d’origine des champs et boutons (avant V1.0.34), san
 - Chiffrement hybride RSA-OAEP 3072 / AES-GCM 256 avant envoi à Supabase Edge Functions ; la clé privée **n'est pas** livrée dans le ZIP GitHub Pages.
 - Dépôt en attente, dédoublonné et limité en fréquence ; revue puis approbation via un compte rédactionnel autorisé dans les paramètres.
 - Conserve la migration éditoriale V1.0.43 comme prérequis. Voir `INSTALLATION_IMPORT_2MIN_V1.0.44.md` et `TESTS_V1.0.44.md`.
+
+## V1.0.45
+Correction de la lecture bidirectionnelle des passages source et lié dans les cartes de la page d’accueil, sans changement SQL.

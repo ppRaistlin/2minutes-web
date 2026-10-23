@@ -190,19 +190,23 @@ function latestCard(item){
    const rb=biasOf(relatedDomain);if(rb){const dot=node('span','editorialDot');dot.style.backgroundColor=colors[String(rb.score)]||'#64748b';dot.setAttribute('aria-hidden','true');relatedMeta.prepend(dot)}information.append(relatedMeta);
    // Le passage source est propre à cette liaison : il ne doit jamais être
    // remplacé par un autre passage de l'article source.
-   if(typeof rel.source_excerpt==='string'&&rel.source_excerpt.trim()){
+   const hasSourceExcerpt=typeof rel.source_excerpt==='string'&&!!rel.source_excerpt.trim();
+   const hasLinkedExcerpt=typeof rel.excerpt==='string'&&!!rel.excerpt.trim();
+   if(hasSourceExcerpt){
     const sourcePassage=node('div','latestSourcePassage');
     sourcePassage.append(node('span','latestPassageLabel','Passage sélectionné dans l’article source'),node('blockquote','latestPassageQuote','« '+rel.source_excerpt.trim()+' »'));
     if(rel.source_origin==='editorial')sourcePassage.append(node('span','editorialOrigin','Sélectionné par la rédaction 2minutes'));
     information.append(sourcePassage);
    }
-   if(rel.excerpt){
+   if(hasLinkedExcerpt){
     const linkedPassage=node('div','latestLinkedPassage');
     linkedPassage.append(node('span','latestPassageLabel','Passage sélectionné dans cet autre article'),node('blockquote','latestPassageQuote','« '+rel.excerpt+' »'));
     if(rel.excerpt_origin==='editorial')linkedPassage.append(node('span','editorialOrigin','Sélectionné par la rédaction 2minutes'));
     information.append(linkedPassage);
     information.append(node('div','latestVotes','↑ '+Number(rel.upvotes||0)+' pertinents · ↓ '+Number(rel.downvotes||0)+' hors sujet'));
-   }else information.append(node('span','latestNoExcerpt','Aucun passage sélectionné pour cet article lié.'));
+   }else if(hasSourceExcerpt){
+    information.append(node('span','latestNoExcerpt','Le passage de l’article lié n’est pas disponible ; le passage de l’article consulté figure ci-dessus.'));
+   }else information.append(node('span','latestNoExcerpt','Aucun passage sélectionné pour cette liaison.'));
    row.append(information);li.append(row);list.append(li);
   }
   section.append(list);group.append(expand,section);card.append(group);setExpanded(false);
