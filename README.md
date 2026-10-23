@@ -3,7 +3,7 @@
 - Champ « Mots-clés du titre… » : fond blanc (`#FFFFFF`) uniquement en thème clair.
 - Autres champs, boutons, thème sombre et fonctionnalités inchangés.
 
-# 2Minutes v1.0.41 — Filtres et points de vue
+# 2Minutes v1.0.42 — Filtres et points de vue
 
 - Points de vue fermés par défaut sur mobile et ordinateur.
 - Plusieurs points de vue : défilement horizontal tactile et à la souris, avec scroll-snap.
@@ -13,7 +13,7 @@
 
 ---
 
-# 2Minutes v1.0.41 — Interface « Journal épuré »
+# 2Minutes v1.0.42 — Interface « Journal épuré »
 
 La section **Derniers articles** adopte un affichage éditorial sans imbrication de cartes : articles séparés par une ligne, photos compactes à gauche, titres et orientations directement lisibles. Les autres points de vue s’ouvrent en retrait sous un trait vertical, sans fond ni bordure supplémentaire.
 
@@ -159,7 +159,7 @@ Cartes avec image paysage et bouton permettant de déplier les articles liés. L
 - Historique « Consultés récemment » masqué.
 - Bouton principal « Rechercher ».
 - Suppression du sous-titre « Contributions publiques de 2minutes ».
-- Pied de page « 2Minutes v1.0.41 ».
+- Pied de page « 2Minutes v1.0.42 ».
 - Comparaisons dépliées à l’intérieur du même conteneur que le bouton de dépliage.
 
 
@@ -215,10 +215,16 @@ Rétablissement des fonds d’origine des champs et boutons (avant V1.0.34), san
 - Comportement du logo inchangé ; vidéo en boucle uniquement à l’ouverture.
 
 
-## V1.0.41 — Passage source par point de vue
+## V1.0.42 — Passage source par point de vue
 
 - Dans « Derniers articles », chaque point de vue lié affiche désormais son passage source (si renseigné), puis le passage de l’article lié.
 - Les passages proviennent de la même liaison et conservent leur direction; aucun texte n’est inventé.
 - Activer **manuellement** `supabase-web-source-passages-readonly-v3.sql` dans Supabase SQL Editor avant validation fonctionnelle.
 - Le site tente d’abord `list_recent_articles_public_v3`, puis V2/V1 si la migration n’est pas installée : dans ce cas, le passage source n’est pas disponible.
 - Aucun changement d’écriture, de vote ou d’authentification.
+
+
+## V1.0.42
+- Échelles éditoriales visuelles dans toutes les listes de médias et favoris, sans badges textuels.
+- Accueil : sélecteur « Voir mes favoris / Tout voir », mémorisé localement. « Tout voir » place les articles des médias favoris en premier, en préservant leur ordre récent au sein de chaque groupe.
+- Filtrage et recherche existants conservés.
