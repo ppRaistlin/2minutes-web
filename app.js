@@ -117,7 +117,8 @@ $('latestFilterReset').onclick=()=>{for(const [field,id] of Object.entries(lates
 async function fetchLatest(query){const cfg=globalThis.TWOMINUTES_COMMUNITY||{};if(!cfg.supabaseUrl||!cfg.supabaseAnonKey)throw Error('Connexion communautaire non configurée.');
  const endpoint=cfg.supabaseUrl.replace(/\/$/,'')+'/rest/v1/rpc/';const headers={apikey:cfg.supabaseAnonKey,Authorization:'Bearer '+cfg.supabaseAnonKey,'Content-Type':'application/json'};
  const body=JSON.stringify({p_search:query,p_limit:50});
- let response=await fetch(endpoint+'list_recent_articles_public_v4',{method:'POST',headers,body});
+ let response=await fetch(endpoint+'list_recent_articles_public_v5',{method:'POST',headers,body});
+ if(!response.ok&&[404,400].includes(response.status))response=await fetch(endpoint+'list_recent_articles_public_v4',{method:'POST',headers,body});
  if(!response.ok&&[404,400].includes(response.status))response=await fetch(endpoint+'list_recent_articles_public_v3',{method:'POST',headers,body});
  if(!response.ok&&[404,400].includes(response.status))response=await fetch(endpoint+'list_recent_articles_public_v2',{method:'POST',headers,body});
  if(!response.ok&&[404,400].includes(response.status))response=await fetch(endpoint+'list_recent_articles_public_v1',{method:'POST',headers,body});

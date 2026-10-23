@@ -266,3 +266,10 @@ Correction de la lecture bidirectionnelle des passages source et lié dans les c
 - La migration SQL remplit `tm_articles.image_url` lors de la création ou si l'image est absente, sans remplacer les photos existantes.
 - Carrousel horizontal élargi, responsive et défilement conservé.
 - Les photos manquantes dans les fichiers déjà importés ne sont pas inventées ni récupérées automatiquement.
+
+## V1.0.50 — Accueil regroupé par article de référence
+- Nouvelle RPC `list_recent_articles_public_v5` à installer manuellement avec `supabase-home-reference-only-v1.0.50.sql`.
+- Articles rédactionnels affichés seulement lorsqu'ils sont référence d'au moins une analyse.
+- Un article lié devient entrée autonome dès qu'il est référence d'une autre confrontation.
+- Conservation des fonctions V4 et des liaisons bidirectionnelles en base.
+- Repli sur V4 si V5 absente (ancien comportement jusqu'à la migration).
