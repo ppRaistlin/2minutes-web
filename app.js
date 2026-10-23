@@ -86,14 +86,14 @@ function filteredRelations(item){let relations=Array.isArray(item.linked_article
 })}
 function selectedArticles(){const matches=latestRows.filter(item=>{
  const d=(item.domain||safeDomainValue(item.url)||'').toLowerCase();
- if(latestView==='favorites'&&!favs.has(d))return false;
+ if(latestView==='favorites'&&!([d,...(item.linked_articles||[]).map(relationDomain)].some(x=>favs.has(x))))return false;
  if(latestFilters.sourceBias!=='all'&&biasKey(d)!==latestFilters.sourceBias)return false;
  if(latestFilters.sourceJournal!=='all'&&d!==latestFilters.sourceJournal)return false;
  if((latestFilters.viewBias!=='all'||latestFilters.viewJournal!=='all')&&!filteredRelations(item).length)return false;
  return true
 });
  // Preserve the original chronological order inside each group; pinned favorites lead in Tout voir.
- if(latestView==='all')return matches.filter(x=>favs.has((x.domain||safeDomainValue(x.url)||'').toLowerCase())).concat(matches.filter(x=>!favs.has((x.domain||safeDomainValue(x.url)||'').toLowerCase())));
+ if(latestView==='all'){const hasFav=x=>[x.domain||safeDomainValue(x.url),...(x.linked_articles||[]).map(relationDomain)].some(d=>favs.has(String(d).toLowerCase()));return matches.filter(hasFav).concat(matches.filter(x=>!hasFav(x)));}
  return matches;
 }
 function updateFilterOptions(){

@@ -627,3 +627,13 @@ body[data-theme="dark"] .editorialMessage.ok{color:#9be8b7}
  #latestArticles .latestRelationsScrollable>.latestRelation,
  #latestArticles .latestRelationsScrollable>.latestRelation:first-child{flex-basis:100%!important;padding:7px 5px!important}
 }
+
+/* V1.0.51 — participation dans la modale, sans encart sur l'accueil */
+.helpDialog{width:min(94vw,700px);max-height:90dvh;overflow-y:auto}
+.helpMainImport{width:100%;font-size:17px;min-height:55px;margin:5px 0 0}
+.helpAlso{font-weight:600;margin-top:14px!important}
+.helpDialog .editorialUploadFlow{width:100%;min-width:0;margin:0;padding:12px 0;max-height:none}
+.helpDialog .editorialUploadFlow.hidden{display:none!important}
+.helpDialog .editorialPreview{max-height:40vh;overflow-y:auto}
+.helpDialog .editorialUploadFlow input[type=file]{max-width:100%}
+@media(max-width:680px){.helpDialog{max-height:92dvh}.helpMainImport{font-size:15px}}

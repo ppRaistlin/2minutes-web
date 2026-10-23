@@ -273,3 +273,9 @@ Correction de la lecture bidirectionnelle des passages source et lié dans les c
 - Un article lié devient entrée autonome dès qu'il est référence d'une autre confrontation.
 - Conservation des fonctions V4 et des liaisons bidirectionnelles en base.
 - Repli sur V4 si V5 absente (ancien comportement jusqu'à la migration).
+
+## V1.0.51
+- Favoris de l'accueil : inclut le média source ou tout média lié.
+- Bouton « Confrontez » : modale de participation avec importateur .2min intégré.
+- Suppression du grand encart d'importation de l'accueil et de la mention « Sans compte · Vérification du fichier avant envoi ».
+- Les deux liens d'extension restent configurables (les liens génériques ne sont pas des fiches 2Minutes).
