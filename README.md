@@ -3,7 +3,7 @@
 - Champ « Mots-clés du titre… » : fond blanc (`#FFFFFF`) uniquement en thème clair.
 - Autres champs, boutons, thème sombre et fonctionnalités inchangés.
 
-# 2Minutes v1.0.38 — Filtres et points de vue
+# 2Minutes v1.0.39 — Filtres et points de vue
 
 - Points de vue fermés par défaut sur mobile et ordinateur.
 - Plusieurs points de vue : défilement horizontal tactile et à la souris, avec scroll-snap.
@@ -13,7 +13,7 @@
 
 ---
 
-# 2Minutes v1.0.38 — Interface « Journal épuré »
+# 2Minutes v1.0.39 — Interface « Journal épuré »
 
 La section **Derniers articles** adopte un affichage éditorial sans imbrication de cartes : articles séparés par une ligne, photos compactes à gauche, titres et orientations directement lisibles. Les autres points de vue s’ouvrent en retrait sous un trait vertical, sans fond ni bordure supplémentaire.
 
@@ -159,7 +159,7 @@ Cartes avec image paysage et bouton permettant de déplier les articles liés. L
 - Historique « Consultés récemment » masqué.
 - Bouton principal « Rechercher ».
 - Suppression du sous-titre « Contributions publiques de 2minutes ».
-- Pied de page « 2Minutes v1.0.38 ».
+- Pied de page « 2Minutes v1.0.39 ».
 - Comparaisons dépliées à l’intérieur du même conteneur que le bouton de dépliage.
 
 
