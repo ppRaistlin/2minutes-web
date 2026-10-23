@@ -646,3 +646,8 @@ body[data-theme="dark"] .editorialMessage.ok{color:#9be8b7}
 .wizardDownloadUnavailable{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:11px 13px;border:1px dashed var(--border);border-radius:10px;color:var(--muted);font-weight:650;cursor:not-allowed}
 .wizardComingSoon{font-size:11px;font-weight:500;margin-left:auto}
 @media(max-width:680px){.wizardHelp{padding:12px}.introHelp .confrontWhiteLogo{width:20px;height:20px}}
+
+/* V1.0.54 — icônes d'actions doublées, libellés inchangés */
+.introActions .introIcon svg{width:48px;height:48px}
+.introActions .introHelp .confrontWhiteLogo{width:46px;height:46px}
+@media(max-width:680px){.introActions .introIcon svg{width:48px;height:48px}.introActions .introHelp .confrontWhiteLogo{width:40px;height:40px}}

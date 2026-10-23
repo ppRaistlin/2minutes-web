@@ -274,13 +274,18 @@ Correction de la lecture bidirectionnelle des passages source et lié dans les c
 - Conservation des fonctions V4 et des liaisons bidirectionnelles en base.
 - Repli sur V4 si V5 absente (ancien comportement jusqu'à la migration).
 
-## V1.0.52
+## V1.0.54
 - Favoris de l'accueil : inclut le média source ou tout média lié.
 - Bouton « Confrontez » : modale de participation avec importateur .2min intégré.
 - Suppression du grand encart d'importation de l'accueil et de la mention « Sans compte · Vérification du fichier avant envoi ».
 - Les deux liens d'extension restent configurables (les liens génériques ne sont pas des fiches 2Minutes).
 
-## V1.0.52
+## V1.0.54
 - Bouton Confrontez : logo 2Minutes monochrome blanc via l'icône locale existante.
 - Dans l'importateur : guide d'utilisation du Wizard et emplacement de téléchargement désactivé jusqu'à réception du fichier officiel.
 - Aucun faux lien de téléchargement, aucune modification Supabase.
+
+## V1.0.54
+- Boutons d’en-tête : Lisez, Regardez, Confrontez.
+- L’aide à l’import précise que le Wizard se lance dans l’IA préférée de l’utilisateur.
+- Téléchargement du Wizard toujours indisponible jusqu’à réception du fichier.
