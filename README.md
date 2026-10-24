@@ -289,3 +289,7 @@ Correction de la lecture bidirectionnelle des passages source et lié dans les c
 - Boutons d’en-tête : Lisez, Regardez, Confrontez.
 - L’aide à l’import précise que le Wizard se lance dans l’IA préférée de l’utilisateur.
 - Téléchargement du Wizard toujours indisponible jusqu’à réception du fichier.
+
+## V1.0.55
+- Suppression du trait central de toutes les échelles éditoriales du site (indicateur circulaire conservé).
+- Le bouton « Confrontez » de l’en-tête devient « Participez » avec une icône d’ampoule blanche. Le dialogue de participation et les imports .2min restent inchangés.

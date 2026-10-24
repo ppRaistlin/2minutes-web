@@ -41,10 +41,9 @@ function compactScale(domainName){
  const domainLabel=node('div','editorialScaleDomain',domainName);
  const barWrap=node('div','editorialScaleBarWrap');
  const bar=node('div','editorialScaleBar');
- const centerTick=node('span','editorialScaleCenterTick');
  const marker=node('span','editorialScaleMarker');
  marker.style.left=biasPosition(score)+'%';
- bar.append(centerTick,marker);
+ bar.append(marker);
  const labels=node('div','editorialScaleLabels');
  labels.append(node('span','', 'Gauche'), node('span','', 'Centre'), node('span','', 'Droite'));
  barWrap.append(bar,labels);
